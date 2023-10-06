@@ -1,11 +1,7 @@
-.responsiveContainer {
-    max-width: rem(300px);
-  
-    @media (min-width: em(400px)) {
-      max-width: rem(400px);
-    }
-  
-    @media (min-width: em(600px)) {
-      max-width: rem(600px);
-    }
-  }
+.containerGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 25px;
+  grid-row-gap: 0px;
+}

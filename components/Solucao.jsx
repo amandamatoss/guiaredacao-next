@@ -1,5 +1,5 @@
-import { Container, Text, Center } from "@mantine/core";
-import classes from "../styles/Solucao.module.css";
+import { Container, Text, Center, SimpleGrid, Box } from "@mantine/core";
+import styles from "../styles/Solucao.module.css";
 import { useTypewriter } from "react-simple-typewriter";
 
 export default function Solucao() {
@@ -9,10 +9,15 @@ export default function Solucao() {
   });
 
   return (
-   
+    <div className={styles.containerGrid}>
 
-    <Center>
-      <Text size="60px">{texto}</Text>
-      </Center>
+      <div className={}> 
+
+      </div>
+      <div>
+
+      </div>
+
+    </div>
   );
 }
