@@ -3,7 +3,7 @@ import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "../theme";
 
-export default function App({ Component, pageProps }: any) {
+export default function App({ Component, pageProps }) {
   return (
     <MantineProvider theme={theme}>
       <Head>
