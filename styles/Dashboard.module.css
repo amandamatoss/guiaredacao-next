@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.containerRedacoes {
+    margin: 30px;
+    border: 1px solid;
+    border-radius: 15px;
+    color: #d4cfcf;
+}

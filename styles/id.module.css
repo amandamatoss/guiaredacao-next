@@ -1,0 +1,13 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 30px;
+}
+
+.containerText {
+    border: 1px solid;
+    margin: 10px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+}

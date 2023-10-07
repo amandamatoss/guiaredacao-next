@@ -10,8 +10,9 @@ import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
 import Navbar from "../../components/Navbar";
 import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Burger, Group, Image } from "@mantine/core";
+import { AppShell, Burger, Button, Group, Image, Text } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
+import styles from "../../styles/Dashboard.module.css";
 
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
@@ -73,11 +74,18 @@ export default function Dashboard() {
             </AppShell.Navbar>
 
             <AppShell.Main>
-              {selectedOption === "redacoes" && (
-                <div>
-                  <RedacoesContainer />
-                  <Input />
-                </div>
+              {selectedOption === "redacoes" && <h2>Bem vindo</h2>}
+              {selectedOption === "inicio" && (
+                <>
+                  <div className={styles.container}>
+                    <Text fw={600} size='30px'>Minhas redações</Text>
+                    <div className={styles.containerRedacoes}>
+                      <RedacoesContainer />
+                    </div>
+                    <Button maw={160} m={'auto'}>Nova redação</Button>
+                    {/* <Input /> */}
+                  </div>
+                </>
               )}
             </AppShell.Main>
           </AppShell>

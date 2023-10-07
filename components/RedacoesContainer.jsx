@@ -29,7 +29,6 @@ export default function RedacoesContainer() {
 
   return (
     <>
-    <Text fw={800} size={'24px'} ml={20}>Minhas redações</Text>
     <div className={styles.containerCard}>
       {redacoes.map((redacao) => (
         <Redacoes key={redacao.id} redacao={redacao} />
