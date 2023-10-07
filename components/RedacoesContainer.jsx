@@ -5,6 +5,8 @@ import Redacoes from "./Redacoes";
 import { getAuth } from "firebase/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "./../atom/userAtom";
+import { Button, Text } from "@mantine/core";
+import styles from '../styles/RedacoesContainer.module.css'
 
 export default function RedacoesContainer() {
 
@@ -26,11 +28,14 @@ export default function RedacoesContainer() {
   );
 
   return (
-    <div>
+    <>
+    <Text fw={800} size={'24px'} ml={20}>Minhas redações</Text>
+    <div className={styles.containerCard}>
       {redacoes.map((redacao) => (
         <Redacoes key={redacao.id} redacao={redacao} />
       ))}
     </div>
+    </>
   );
 }
 

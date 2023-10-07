@@ -18,10 +18,14 @@ const auth = getAuth();
   const sendPost = async () => {
 
     const docRef = await addDoc(collection(db, "redacoes"), {
+
       id: currentUser.uid,
       text: inputValue,
       timestamp: serverTimestamp(),
       name: currentUser.name,
+      status: null,
+      avaliacao: '',
+
     });
 
   };
@@ -33,6 +37,7 @@ const auth = getAuth();
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
+
       <Button onClick={sendPost} disabled={!inputValue.trim()}>
         submit
       </Button>
