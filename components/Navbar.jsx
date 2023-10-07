@@ -27,9 +27,10 @@ import {
     IconCoin,
     IconChevronDown,
   } from '@tabler/icons-react';
-  import classes from '../styles/HeaderMegaMenu.module.css'
+  import classes from '../styles/Navbar.module.css'
   import Image from 'next/image';
   import Logo from '../assets/imgs/Logo.png'
+  import { useRouter } from 'next/router'
   
   const mockdata = [
     {
@@ -64,10 +65,15 @@ import {
     },
   ];
   
-  export default function HeaderMegaMenu() {
+  export default function Navbar() {
     const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
     const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
     const theme = useMantineTheme();
+    const router = useRouter();
+
+    function signIn() {
+      router.push('/auth/signin')
+    }
   
     const links = mockdata.map((item) => (
       <UnstyledButton className={classes.subLink} key={item.title}>
@@ -119,8 +125,7 @@ import {
             </Group>
   
             <Group visibleFrom="sm">
-              <Button variant="default">Log in</Button>
-              <Button color=''>Sign up</Button>
+              <Button size='md' onClick={signIn}>Entrar</Button>
             </Group>
   
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
@@ -132,7 +137,7 @@ import {
           onClose={closeDrawer}
           size="100%"
           padding="md"
-          title="Navigation"
+          title="Logo Guia" // LEMBRAR DE TROCAR
           hiddenFrom="sm"
           zIndex={1000000}
         >
@@ -144,17 +149,19 @@ import {
             </a>
             <Collapse in={linksOpened}>{links}</Collapse>
             <a href="#" className={classes.link}>
-              Learn
+              Feature
             </a>
             <a href="#" className={classes.link}>
-              Academy
+              Planos
+            </a>
+            <a href="#" className={classes.link}>
+              Perguntas
             </a>
   
             <Divider my="sm" />
   
             <Group justify="center" grow pb="xl" px="md">
-              <Button variant="default">Log in</Button>
-              <Button>Sign up</Button>
+              <Button>Entrar</Button>
             </Group>
           </ScrollArea>
         </Drawer>

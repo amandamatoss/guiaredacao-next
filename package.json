@@ -12,7 +12,9 @@
     "@mantine/core": "7.1.1",
     "@mantine/hooks": "7.1.1",
     "@tabler/icons-react": "^2.38.0",
+    "firebase": "^10.4.0",
     "next": "^13.5.4",
+    "next-auth": "^4.23.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-simple-typewriter": "^5.0.1"
