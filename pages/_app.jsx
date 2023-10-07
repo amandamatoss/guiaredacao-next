@@ -3,6 +3,7 @@ import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
+import '@mantine/tiptap/styles.css';
 
 export default function App({
   Component,
