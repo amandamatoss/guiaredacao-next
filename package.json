@@ -17,7 +17,8 @@
     "next-auth": "^4.23.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-simple-typewriter": "^5.0.1"
+    "react-simple-typewriter": "^5.0.1",
+    "recoil": "^0.7.7"
   },
   "devDependencies": {
     "@types/node": "20.2.5",

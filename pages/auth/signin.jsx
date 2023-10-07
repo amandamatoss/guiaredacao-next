@@ -1,9 +1,36 @@
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../firebase'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth'
 import { useRouter } from 'next/router'
+import { useRecoilState } from "recoil";
+import { userState } from "../../atom/userAtom";
+import { useEffect } from 'react';
 
 export default function signIn() {
+
+    const routere = useRouter()
+
+  const [currentUser, setCurrentUser] = useRecoilState(userState);
+
+  if(currentUser) {
+    routere.push('/aluno/dashboard')
+}
+  console.log(currentUser);
+  const auth = getAuth();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const fetchUser = async () => {
+          const docRef = doc(db, "users", auth.currentUser.providerData[0].uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setCurrentUser(docSnap.data());
+          }
+        };
+        fetchUser();
+      }
+    });
+  }, []);
 
     const router = useRouter()
     const onGoogleClick = async () => {

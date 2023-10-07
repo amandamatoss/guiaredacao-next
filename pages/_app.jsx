@@ -1,12 +1,20 @@
 import "@mantine/core/styles.css";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
+import { SessionProvider } from "next-auth/react";
+import { RecoilRoot } from "recoil";
 
-
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-      <MantineProvider>
-        <Component {...pageProps} />
-      </MantineProvider>
+    <SessionProvider session={session}>
+      <RecoilRoot>
+        <MantineProvider>
+          <Component {...pageProps} />
+        </MantineProvider>
+      </RecoilRoot>
+    </SessionProvider>
   );
 }
