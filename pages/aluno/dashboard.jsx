@@ -9,8 +9,9 @@ import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
 import Navbar from "../../components/Navbar";
-import { useDisclosure } from "@mantine/hooks";
-import { AppShell, Burger, Button, Group, Image, Text } from "@mantine/core";
+import { Loader, Flex } from "@mantine/core";
+import { useDisclosure } from '@mantine/hooks'
+import { AppShell, Burger, Button, Group, Image, Text, Modal } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 
@@ -20,9 +21,12 @@ export default function Dashboard() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useRecoilState(userState);
   const [opened, { toggle }] = useDisclosure();
+  const [isOpen, { open, close }] = useDisclosure(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   console.log(currentUser);
   const auth = getAuth();
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -33,7 +37,7 @@ export default function Dashboard() {
             setCurrentUser(docSnap.data());
           }
         };
-        fetchUser();
+        fetchUser().then(() => setIsLoading(false));
       }
     });
   }, []);
@@ -46,7 +50,15 @@ export default function Dashboard() {
 
   return (
     <>
-      {currentUser ? (
+      {isLoading ? (
+      <Flex
+        align="center"
+        justify="center"
+        style={{ minHeight: "100vh" }} // Centraliza o conteúdo verticalmente e horizontalmente
+      >
+        <Loader size="md" />
+        </Flex>
+      ) : currentUser ? (
         <div>
           <AppShell
             header={{ height: 60 }}
@@ -57,6 +69,9 @@ export default function Dashboard() {
             }}
             padding="md"
           >
+            <Modal opened={isOpen} onClose={close} centered>
+              <Input />
+            </Modal>
             <AppShell.Header>
               <Group>
                 <Burger
@@ -78,12 +93,15 @@ export default function Dashboard() {
               {selectedOption === "inicio" && (
                 <>
                   <div className={styles.container}>
-                    <Text fw={600} size='30px'>Minhas redações</Text>
+                    <Text fw={600} size="30px">
+                      Minhas redações
+                    </Text>
                     <div className={styles.containerRedacoes}>
                       <RedacoesContainer />
                     </div>
-                    <Button maw={160} m={'auto'}>Nova redação</Button>
-                    {/* <Input /> */}
+                    <Button maw={160} m={"auto"} onClick={open}>
+                      Nova redação
+                    </Button>
                   </div>
                 </>
               )}

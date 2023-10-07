@@ -1191,6 +1191,15 @@
   "resolved" "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
   "version" "1.1.4"
 
+"compromise@^14.10.0":
+  "integrity" "sha512-ViDNmO4N8xezb6NKYWUUcOckWE9tYEi5Yr2AYN2L5MaJCSMmwLRmgdajpN5u1snNOmg/RdJ37fONQ2+fd4UPfQ=="
+  "resolved" "https://registry.npmjs.org/compromise/-/compromise-14.10.0.tgz"
+  "version" "14.10.0"
+  dependencies:
+    "efrt" "2.7.0"
+    "grad-school" "0.0.5"
+    "suffix-thumb" "5.0.2"
+
 "concat-map@0.0.1":
   "integrity" "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="
   "resolved" "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
@@ -1309,6 +1318,11 @@
   "version" "3.0.0"
   dependencies:
     "esutils" "^2.0.2"
+
+"efrt@2.7.0":
+  "integrity" "sha512-/RInbCy1d4P6Zdfa+TMVsf/ufZVotat5hCw3QXmWtjU+3pFEOvOQ7ibo3aIxyCJw2leIeAMjmPj+1SLJiCpdrQ=="
+  "resolved" "https://registry.npmjs.org/efrt/-/efrt-2.7.0.tgz"
+  "version" "2.7.0"
 
 "emoji-regex@^8.0.0":
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
@@ -1873,6 +1887,11 @@
   "integrity" "sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA=="
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
   "version" "4.2.10"
+
+"grad-school@0.0.5":
+  "integrity" "sha512-rXunEHF9M9EkMydTBux7+IryYXEZinRk6g8OBOGDBzo/qWJjhTxy86i5q7lQYpCLHN8Sqv1XX3OIOc7ka2gtvQ=="
+  "resolved" "https://registry.npmjs.org/grad-school/-/grad-school-0.0.5.tgz"
+  "version" "0.0.5"
 
 "graphemer@^1.4.0":
   "integrity" "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag=="
@@ -3145,6 +3164,11 @@
   "version" "5.1.1"
   dependencies:
     "client-only" "0.0.1"
+
+"suffix-thumb@5.0.2":
+  "integrity" "sha512-I5PWXAFKx3FYnI9a+dQMWNqTxoRt6vdBdb0O+BJ1sxXCWtSoQCusc13E58f+9p4MYx/qCnEMkD5jac6K2j3dgA=="
+  "resolved" "https://registry.npmjs.org/suffix-thumb/-/suffix-thumb-5.0.2.tgz"
+  "version" "5.0.2"
 
 "sugarss@^4.0.1":
   "integrity" "sha512-WCjS5NfuVJjkQzK10s8WOBY+hhDxxNt/N6ZaGwxFZ+wN3/lKKFSaaKUNecULcTTvE4urLcKaZFQD8vO0mOZujw=="

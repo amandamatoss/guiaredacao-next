@@ -23,11 +23,11 @@ const auth = getAuth();
       text: inputValue,
       timestamp: serverTimestamp(),
       name: currentUser.name,
-      status: null,
+      status: false,
       avaliacao: '',
 
     });
-
+    
   };
 
   return (
