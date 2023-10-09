@@ -69,8 +69,9 @@ export default function Dashboard() {
             padding="md"
           >
             <Modal opened={isOpen} onClose={close} centered size='100vh'>
-              <Input />
+              <Input isOpen={isOpen} close={close}/>
             </Modal>
+
             <AppShell.Header>
               <Group>
                 <Burger
@@ -88,8 +89,8 @@ export default function Dashboard() {
             </AppShell.Navbar>
 
             <AppShell.Main>
-              {selectedOption === "redacoes" && <h2>Bem vindo</h2>}
-              {selectedOption === "inicio" && (
+              {selectedOption === "inicio" && <h2>Bem vindo, {currentUser.name}</h2>}
+              {selectedOption === "redacoes" && (
                 <>
                   <div className={styles.container}>
                     <Text fw={600} size="30px">

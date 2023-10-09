@@ -12,7 +12,7 @@ import { useRecoilState } from "recoil";
 import { userState } from "./../atom/userAtom";
 import compromise from "compromise";
 
-export default function Input() {
+export default function Input({ isOpen, close }) {
   const [active, setActive] = useState(0);
   const nextStep = () =>
     setActive((current) => (current < 3 ? current + 1 : current));
@@ -82,6 +82,7 @@ export default function Input() {
 
     setInputValue("");
     setSelectedTema("");
+    close()
   };
 
   const areBothStepsPassed = active === 2;
