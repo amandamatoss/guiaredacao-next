@@ -7,17 +7,17 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css'
-import { ActionIcon, Badge, Box, Button, Group, ScrollArea, Text } from "@mantine/core";
+import { ActionIcon, Badge, Box, ScrollArea, Text } from "@mantine/core";
 import nlp from 'compromise'
 import { IconArrowLeft } from "@tabler/icons-react";
 
 export default function Post() {
     const [currentUser, setCurrentUser] = useRecoilState(userState);
-    const [sentenceCount, setSentenceCount] = useState(0); // Estado para armazenar a contagem de frases
-    const [wordCount, setWordCount] = useState(0); // Estado para armazenar a contagem de palavras
-    const [letterCount, setLetterCount] = useState(0); // Estado para armazenar a contagem de letras
+    const [sentenceCount, setSentenceCount] = useState(0); 
+    const [wordCount, setWordCount] = useState(0); 
+    const [letterCount, setLetterCount] = useState(0); 
     const [loading, setLoading] = useState(true);
-    const [redacao, setRedacao] = useState({}); // Estado para armazenar os dados da redação
+    const [redacao, setRedacao] = useState({}); 
     const auth = getAuth();
     const router = useRouter();
     const { id } = router.query;
@@ -44,19 +44,18 @@ export default function Post() {
     }, []);
 
     useEffect(() => {
-        // Verifique se há um ID de documento válido
+        
         if (id) {
-            // Crie uma referência ao documento da redação no Firestore
+            
             const redacaoRef = doc(db, "redacoes", id);
 
-            // Busque os dados do documento
             getDoc(redacaoRef)
                 .then((docSnap) => {
                     if (docSnap.exists()) {
-                        // Se o documento existe, obtenha o texto e o ID da redação
+
+                        // verificar se o doc existe e puxar a data
                         const redacaoData = docSnap.data();
 
-                        // Verifique se o ID do usuário atual é igual ao ID na redação
                         if (currentUser && currentUser.uid === redacaoData.id) {
                             const redacaoComId = {
                                 id: docSnap.id,
@@ -64,7 +63,7 @@ export default function Post() {
                                 status: redacaoData.status,
                                 timestamp: redacaoData.timestamp.toDate().toLocaleDateString(),
                             };
-                            setRedacao(redacaoComId); // Armazena os dados da redação no estado
+                            setRedacao(redacaoComId); 
                         } else {
                             router.push('/aluno/dashboard')
                         }
@@ -76,11 +75,12 @@ export default function Post() {
                     console.error("Erro ao buscar o documento da redação:", error);
                 });
         }
-    }, [id, currentUser]); // Execute esta função quando o ID da rota ou o currentUser mudar
+    }, [id, currentUser]); 
 
     useEffect(() => {
-        // Verifique se há um texto de redação válido
+        
         if (redacao.text) {
+
             // Use a biblioteca compromise para analisar o texto
             const doc = nlp(redacao.text);
 
@@ -91,7 +91,7 @@ export default function Post() {
             const words = redacao.text.split(/\s+/);
 
             // Calcule a contagem de letras (removendo espaços)
-            const letters = redacao.text.replace(/\s/g, "");
+            const letters = redacao.text;
 
             // Defina as contagens nos estados
             setSentenceCount(sentences.length);

@@ -68,7 +68,7 @@ export default function Dashboard() {
             }}
             padding="md"
           >
-            <Modal opened={isOpen} onClose={close} centered>
+            <Modal opened={isOpen} onClose={close} centered size='100vh'>
               <Input />
             </Modal>
             <AppShell.Header>
