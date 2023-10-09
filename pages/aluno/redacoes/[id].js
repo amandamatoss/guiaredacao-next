@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css'
-import { Badge, Box, Group, ScrollArea, Text } from "@mantine/core";
+import { ActionIcon, Badge, Box, Button, Group, ScrollArea, Text } from "@mantine/core";
 import nlp from 'compromise'
+import { IconArrowLeft } from "@tabler/icons-react";
 
 export default function Post() {
     const [currentUser, setCurrentUser] = useRecoilState(userState);
@@ -110,9 +111,14 @@ export default function Post() {
     return (
         <div className={styles.container}>
             <div className={styles.containerText}>
+                <ActionIcon  style={{ borderRadius: '15px'}}variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
+                    <IconArrowLeft />
+                </ActionIcon>
+                <div className={styles.containerTextBD}>
                 <ScrollArea h={'50vh'}>
                     <Text style={{ whiteSpace: 'pre-wrap' }} fw={500} mr={50} ml={5} my={5}>{redacao.text}</Text>
                 </ScrollArea>
+                </div>
             </div>
             <div className={styles.containerInfo}>
                 <div className={styles.dateAndStatusGroup}>

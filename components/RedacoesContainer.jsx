@@ -6,35 +6,44 @@ import { getAuth } from "firebase/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "./../atom/userAtom";
 import { Button, Text } from "@mantine/core";
-import styles from '../styles/RedacoesContainer.module.css'
+import styles from '../styles/RedacoesContainer.module.css';
 
 export default function RedacoesContainer() {
 
     const auth = getAuth();
     const [currentUser] = useRecoilState(userState);
     const [redacoes, setRedacoes] = useState([]);
-    const currentUserUid = currentUser.uid
+    const [isLoading, setIsLoading] = useState(true); 
+    const currentUserUid = currentUser.uid;
 
-  useEffect(() =>
-    onSnapshot(
-      query(collection(db, "redacoes"), where("id", "==", currentUserUid), orderBy("timestamp", "desc")),
-      (snapshot) => {
-        setRedacoes(snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(), // Pega todos os dados do documento
-        })));
-      }
-    ), []
-  );
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            query(collection(db, "redacoes"), where("id", "==", currentUserUid), orderBy("timestamp", "desc")),
+            (snapshot) => {
+                setRedacoes(snapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                })));
+                setIsLoading(false); 
+            }
+        );
 
-  return (
-    <>
-    <div className={styles.containerCard}>
-      {redacoes.map((redacao) => (
-        <Redacoes key={redacao.id} redacao={redacao} />
-      ))}
-    </div>
-    </>
-  );
+        return () => unsubscribe(); 
+    }, []);
+
+    return (
+        <>
+            {isLoading ? ( 
+                <div className={styles.loading}>
+                    <Text>Loading...</Text> {/* Mudar depois */}
+                </div>
+            ) : (
+                <div className={styles.containerCard}>
+                    {redacoes.map((redacao) => (
+                        <Redacoes key={redacao.id} redacao={redacao} />
+                    ))}
+                </div>
+            )}
+        </>
+    );
 }
-

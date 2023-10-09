@@ -33,7 +33,7 @@ export default function signIn() {
   }, []);
 
     const router = useRouter()
-    const onGoogleClick = async () => {
+    const handleGoogleSignIn = async () => {
         try {
             const auth = getAuth()
             const provider = new GoogleAuthProvider()
@@ -57,6 +57,6 @@ export default function signIn() {
     }
 
     return (
-        <button onClick={onGoogleClick}>Sign</button>
+        <button onClick={handleGoogleSignIn}>Sign</button>
     )
 }

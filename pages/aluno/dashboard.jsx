@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
-import Navbar from "../../components/Navbar";
 import { Loader, Flex } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks'
 import { AppShell, Burger, Button, Group, Image, Text, Modal } from "@mantine/core";
