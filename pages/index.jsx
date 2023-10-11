@@ -1,9 +1,7 @@
-import { Button, Group } from "@mantine/core";
 import Navbar from "../components/Navbar.jsx";
 import PrimaryContainer from "../components/PrimaryContainer.jsx";
 import Head from 'next/head'
 import SecondaryContainer from "../components/SecondaryContainer.jsx";
-import Divisor from "../components/Divider.jsx";
 
 export default function IndexPage() {
   return (
@@ -24,7 +22,6 @@ export default function IndexPage() {
 
       <main>
         <PrimaryContainer />
-        <Divisor />
         <SecondaryContainer />
       </main>
     </>

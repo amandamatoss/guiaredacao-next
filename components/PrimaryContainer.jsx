@@ -54,7 +54,7 @@ export default function PrimaryContainer() {
         <Box visibleFrom="sm">
           <Title
             order={3}
-            fw={900}
+            fw={800}
             size={48}
             style={{ width: "20ch" }}
           >
@@ -63,7 +63,7 @@ export default function PrimaryContainer() {
               span
               c="blue"
               inherit
-              fw={900}
+              fw={800}
               variant="gradient"
               gradient={{ from: "blue", to: "cyan", deg: 90 }}
             >
@@ -73,13 +73,12 @@ export default function PrimaryContainer() {
             para aprimorar suas habilidades em redação!
           </Title>
 
-          <Text style={{ width: "60ch" }}>
+        </Box>
+        <Text style={{ width: "60ch" }}>
             Lorem Ipsum has been the industry's standard dummy text ever since
             the 1500s, when an unknown printer took a galley of type and
             scrambled it to make a type specimen book.
           </Text>
-        </Box>
-
         <div className={styles.buttons}>
           <Button
             variant="gradient"

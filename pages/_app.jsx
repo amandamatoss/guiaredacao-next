@@ -1,9 +1,9 @@
 import "@mantine/core/styles.css";
-import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 import '@mantine/tiptap/styles.css';
+import '../styles/global.css'
 
 export default function App({
   Component,
