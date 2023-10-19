@@ -6,7 +6,6 @@
 
 .containerRedacoes {
     margin: 30px;
-    border: 1px solid;
+    border: 1px solid #dcdbdb;
     border-radius: 15px;
-    color: #d4cfcf;
 }

@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
-import RedacoesContainer from "../../../components/RedacoesContainer";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../atom/userAtom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css'
-import { ActionIcon, Badge, Box, ScrollArea, Text } from "@mantine/core";
+import { ActionIcon, Badge, Box, Button, ScrollArea, Text } from "@mantine/core";
 import nlp from 'compromise'
 import { IconArrowLeft } from "@tabler/icons-react";
 
@@ -62,6 +61,7 @@ export default function Post() {
                                 text: redacaoData.text,
                                 status: redacaoData.status,
                                 timestamp: redacaoData.timestamp.toDate().toLocaleDateString(),
+                                tema: redacaoData.tema,
                             };
                             setRedacao(redacaoComId); 
                         } else {
@@ -100,6 +100,16 @@ export default function Post() {
         }
     }, [redacao]);
 
+    const deleteRedacao = async () => {
+        try {
+            const redacaoRef = doc(db, "redacoes", id);
+            await deleteDoc(redacaoRef);
+            router.push('/aluno/dashboard');
+        } catch (error) {
+            console.error("Erro ao excluir redação:", error);
+        }
+    };
+
     if (loading) {
         return <p>Carregando...</p>;
     }
@@ -116,7 +126,9 @@ export default function Post() {
                 </ActionIcon>
                 <div className={styles.containerTextBD}>
                 <ScrollArea h={'50vh'}>
-                    <Text style={{ whiteSpace: 'pre-wrap' }} fw={500} mr={50} ml={5} my={5}>{redacao.text}</Text>
+                    <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px'}}>
+                        {redacao.text}
+                    </Box>
                 </ScrollArea>
                 </div>
             </div>
@@ -133,6 +145,9 @@ export default function Post() {
                         </Badge>
                     )}
                 </div>
+                <div>
+                <Text fw={500}>Tema: {redacao.tema}</Text>
+                </div>
                 <div className={styles.statsOfText}>
                     <Box align="center">
                         <Text fw={800} size={'30px'}>{wordCount} </Text>
@@ -147,6 +162,7 @@ export default function Post() {
                         <Text fw={400}>{sentenceCount === 1 ? "Frase" : 'Frases'}</Text>
                     </Box>
                 </div>
+                <Button onClick={deleteRedacao}>Excluir</Button>
             </div>
         </div>
     );

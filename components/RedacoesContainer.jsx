@@ -39,9 +39,15 @@ export default function RedacoesContainer() {
                 </div>
             ) : (
                 <div className={styles.containerCard}>
-                    {redacoes.map((redacao) => (
-                        <Redacoes key={redacao.id} redacao={redacao} />
-                    ))}
+                    {redacoes.length === 0 ? (
+                        <div className={styles.noRedacoes}>
+                            <Text>Vamos começar a trilha do sucesso? O GUIA vai te acompanhar.</Text>
+                        </div>
+                    ) : (
+                        redacoes.map((redacao) => (
+                            <Redacoes key={redacao.id} redacao={redacao} />
+                        ))
+                    )}
                 </div>
             )}
         </>
