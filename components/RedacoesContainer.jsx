@@ -40,7 +40,7 @@ export default function RedacoesContainer() {
             ) : (
                 <div className={styles.containerCard}>
                     {redacoes.length === 0 ? (
-                        <div className={styles.noRedacoes}>
+                        <div>
                             <Text>Vamos começar a trilha do sucesso? O GUIA vai te acompanhar.</Text>
                         </div>
                     ) : (

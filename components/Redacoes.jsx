@@ -48,7 +48,7 @@ export default function Redacoes({ redacao }) {
           </Badge>
         )}
 
-        <Text size="sm" lineClamp={3} my={5} fw={600} size="22px" mb={144}>
+        <Text lineClamp={3} my={5} fw={600} size="22px" mb={144} style={{ wordBreak: 'break-word'}}>
           {redacao.text}
         </Text>
       </Box>
