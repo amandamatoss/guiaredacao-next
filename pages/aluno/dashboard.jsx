@@ -10,7 +10,7 @@ import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
 import { Loader, Flex } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks'
-import { AppShell, Burger, Button, Group, Image, Text, Modal } from "@mantine/core";
+import { AppShell, Burger, Button, Group, Image, Text, Modal, Box } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 
@@ -50,12 +50,12 @@ export default function Dashboard() {
   return (
     <>
       {isLoading ? (
-      <Flex
-        align="center"
-        justify="center"
-        style={{ minHeight: "100vh" }} // Centraliza o conteúdo verticalmente e horizontalmente
-      >
-        <Loader size="md" />
+        <Flex
+          align="center"
+          justify="center"
+          style={{ minHeight: "100vh" }} // Centraliza o conteúdo verticalmente e horizontalmente
+        >
+          <Loader size="md" />
         </Flex>
       ) : currentUser ? (
         <div>
@@ -68,8 +68,8 @@ export default function Dashboard() {
             }}
             padding="md"
           >
-            <Modal opened={isOpen} onClose={close} centered size='100vh'>
-              <Input isOpen={isOpen} close={close}/>
+            <Modal opened={isOpen} onClose={close} centered size='100vw'>
+              <Input isOpen={isOpen} close={close} />
             </Modal>
 
             <AppShell.Header>
@@ -93,10 +93,25 @@ export default function Dashboard() {
               {selectedOption === "redacoes" && (
                 <>
                   <div className={styles.container}>
-                    <Text fw={600} size="30px">
-                      Minhas redações
+                    <Text fw={800} size="48px">
+                      Redação
                     </Text>
+                    <div className={styles.containerInfo}>
+                      <Box>
+                        <Text fw={600} size="18px">
+                          Média das suas redações
+                        </Text>
+                        {/* De acordo com as redações enviadas! Apenas exemplo */}
+                        <Text fw={800} size="24px" mt={15} display='flex'><Text fw={800} size="36px">780</Text>/1000</Text>
+                      </Box>
+                      <Box>
+                        <Text fw={600} size="18px">Redações disponíveis</Text>
+                        {/* De acordo com o plano! Apenas exemplo */}
+                        <Text fw={800} size="24px" mt={15} display='flex'><Text fw={800} size="36px">1</Text>/2</Text>
+                      </Box>
+                    </div>
                     <div className={styles.containerRedacoes}>
+                      <Text fw={500} size='20px'>Minhas redações</Text>
                       <RedacoesContainer />
                     </div>
                     <Button maw={160} m={"auto"} onClick={open}>

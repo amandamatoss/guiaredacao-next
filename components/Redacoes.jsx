@@ -1,4 +1,4 @@
-import { Card, Text, Badge, Button, Group, Loader, Flex } from "@mantine/core"; // Importe o componente Loader
+import { Card, Text, Badge, Button, Group, Loader, Flex, Box, Divider } from "@mantine/core"; // Importe o componente Loader
 import { useRouter } from "next/router";
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -32,42 +32,41 @@ export default function Redacoes({ redacao }) {
   }
 
   return (
-    <Card shadow="sm" padding="md" radius="md" withBorder maw={250}>
-      <Card.Section>
-        {/* Conteúdo */}
-      </Card.Section>
+    <Card shadow="sm" padding="md" radius="md" withBorder maw={300}>
 
-      <Group mt="md" mb="xs">
+      {/* <Group mt="md" mb="xs">
         <Text fw={400}>{redacao.timestamp ? redacao.timestamp.toDate().toLocaleDateString() : "..."}</Text>
-      </Group>
+      </Group> */}
+      <Box style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+        {redacao.status === false ? (
+          <Badge color="gray" variant="filled" radius="sm" size="lg" ml={5}>
+            Não avaliada
+          </Badge>
+        ) : (
+          <Badge color="green" variant="filled" radius="sm" size="lg" ml={5}>
+            Avaliada
+          </Badge>
+        )}
 
-      {redacao.status === false ? (
-        <Badge color="gray" variant="light">
-          Não avaliada
-        </Badge>
-      ) : (
-        <Badge color="green" variant="light">
-          Avaliada
-        </Badge>
-      )}
+        <Text size="sm" lineClamp={3} my={5} fw={600} size="22px" mb={144}>
+          {redacao.text}
+        </Text>
+      </Box>
 
-      <Text size="sm" c="dimmed" lineClamp={3} my={5}>
-        {redacao.text}
-      </Text>
+      <Divider my='sm'></Divider>
 
       {/* Renderize a animação de carregamento condicionalmente */}
       {isLoading ? (
         <Flex
-        justify="center" // Centraliza o conteúdo verticalmente e horizontalmente
+          justify="center" // Centraliza o conteúdo verticalmente e horizontalmente
         >
-        <Loader size="sm" />
+          <Loader size="sm" />
         </Flex>
       ) : (
         <Button
-          variant="light"
-          color="blue"
+          variant="transparent"
+          color="grey"
           fullWidth
-          mt="md"
           radius="md"
           onClick={getDocumentId}
         >

@@ -1,11 +1,17 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 48px;
 }
 
 .containerRedacoes {
-    margin: 30px;
-    border: 1px solid #dcdbdb;
-    border-radius: 15px;
+    margin-top: 40px;
+}
+
+.containerInfo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 64px;
+    flex-direction: row;
+    gap: 64px;
 }
