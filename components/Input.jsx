@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Textarea, Button, Stepper, Group, Select, Text, Box, Accordion } from '@mantine/core'; // Certifique-se de importar o componente 'Select' de Mantine
+import { Textarea, Button, Stepper, Group, Select, Text, Box, Accordion, Paper } from '@mantine/core'; // Certifique-se de importar o componente 'Select' de Mantine
 import {
   addDoc,
   collection,
@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil';
 import { userState } from './../atom/userAtom';
 import compromise from 'compromise';
 import { useMediaQuery } from '@mantine/hooks';
+import styles from '../styles/Input.module.css'
 
 export default function Input({ isOpen, close }) {
   const [active, setActive] = useState(0);
@@ -49,7 +50,7 @@ export default function Input({ isOpen, close }) {
     setSelectData(formattedData);
   }, [temas]);
 
-  
+
   const analyzeText = (text) => {
     const doc = compromise(text);
 
@@ -92,7 +93,7 @@ export default function Input({ isOpen, close }) {
     setSelectedTema('');
     close();
   };
-  
+
 
   const isMobile = useMediaQuery('(max-width: 576px)');
 
@@ -116,32 +117,26 @@ export default function Input({ isOpen, close }) {
           />
         </Stepper.Step>
         <Stepper.Step label="Segundo passo" description="Escreva sua redação">
-          <Box style={{ display: 'flex', flexDirection: 'row', gap: '64px', alignItems: 'center', justifyContent: 'center' }}>
-            {/* <Box bg="aliceblue" justify="center" align="center">
-              <Text>Suas estatísticas</Text>
-              <Text>Caracteres: {characterCount}</Text>
-              <Text>Frases: {sentenceCount}</Text>
-              <Text>Parágrafos: {paragraphCount}</Text>
-              <Text>Palavras: {wordCount}</Text>
-            </Box> */}
-            <Box>
+          <Box style={{ display: 'grid', gridTemplateColumns: '0.3fr 0.7fr', gap: '64px', justifyContent: 'center' }}>
+            <Paper>
               <Text fw={800} size='24px'>Informações</Text>
               <Box className='acordion'>
-                
+
               </Box>
-            </Box>
+            </Paper>
             <Box>
+              <Text>Sua redação</Text>
               <Textarea
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 autosize
                 minRows={20}
                 maxRows={20}
-                w="95%"
+                style={{ width: '100%' }}
               />
               {active === 1 && inputValue.length < 300 && (
-                <Text mt={2} color="red" align="center">
-                  A redação deve conter pelo menos 300 caracteres.
+                <Text mt={2} color="gray" align="end">
+                  Mínimo de 300 caracteres.
                 </Text>
               )}
             </Box>
