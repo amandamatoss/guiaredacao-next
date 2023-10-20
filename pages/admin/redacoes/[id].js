@@ -24,7 +24,7 @@ export default function Post() {
     const [avaliarClicked, setAvaliarClicked] = useState(false);
     const [avaliacao, setAvaliacao] = useState("");
     const [notasAv, setNotasAv] = useState([null, null, null, null, null]);
-    const competenciaValores = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200];
+    const competenciaValores = [0, 40, 80, 120, 160, 200];
 
     const auth = getAuth();
     const router = useRouter();
@@ -128,7 +128,7 @@ export default function Post() {
                 variant="default"
                 size="xl"
                 m={5}
-                onClick={() => router.push("/aluno/dashboard")}
+                onClick={() => router.push("/admin/dashboard")}
             >
                 <IconArrowLeft />
             </ActionIcon>
