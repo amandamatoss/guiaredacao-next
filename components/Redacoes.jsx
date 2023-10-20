@@ -1,43 +1,60 @@
-import { Card, Text, Badge, Button, Group, Loader, Flex, Box, Divider } from "@mantine/core"; // Importe o componente Loader
+import {
+  Card,
+  Text,
+  Badge,
+  Button,
+  Group,
+  Loader,
+  Flex,
+  Box,
+  Divider,
+} from "@mantine/core";
 import { useRouter } from "next/router";
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../firebase';
-import { useEffect, useState } from 'react';
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
+import { useEffect, useState } from "react";
 
-export default function Redacoes({ redacao }) {
+export default function Redacoes({ redacao, currentUser }) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false); // Estado para controlar a animação de carregamento
+  const [isLoading, setIsLoading] = useState(false);
 
   // Função para pegar o ID do documento
   async function getDocumentId() {
     try {
-      setIsLoading(true); // Ative a animação de carregamento
+      setIsLoading(true);
 
-      const q = query(collection(db, 'redacoes'), where("timestamp", "==", redacao.timestamp));
+      const q = query(
+        collection(db, "redacoes"),
+        where("timestamp", "==", redacao.timestamp)
+      );
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
-        const documentId = doc.id; // Pega o ID do documento Firestore
-        console.log('ID do Documento:', documentId);
+        const documentId = doc.id;
 
-        // Navega para a página de detalhes com o ID do documento como parâmetro
-        router.push(`/aluno/redacoes/${documentId}`);
+        // Verifique se o usuário é um administrador
+        if (currentUser && currentUser.isAdmin) {
+          // Redireciona para a rota de administrador
+          router.push(`/admin/redacoes/${documentId}`);
+        } else {
+          // Navega para a página de detalhes com o ID do documento como parâmetro
+          router.push(`/aluno/redacoes/${documentId}`);
+        }
       }
     } catch (error) {
-      console.error('Erro ao buscar documento:', error);
+      console.error("Erro ao buscar documento:", error);
     } finally {
-      setIsLoading(false); // Desative a animação de carregamento quando a operação estiver concluída
+      setIsLoading(false);
     }
   }
 
   return (
-    <Card shadow="sm" padding="md" radius="md" withBorder maw={300}>
-
-      {/* <Group mt="md" mb="xs">
-        <Text fw={400}>{redacao.timestamp ? redacao.timestamp.toDate().toLocaleDateString() : "..."}</Text>
-      </Group> */}
-      <Box style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+    <Card padding="md" radius="md" withBorder maw={300}>
+      <Box style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      {currentUser.isAdmin ? (
+        <Text>{redacao.timestamp.toDate().toLocaleDateString()}</Text>
+      ) : null}
         {redacao.status === false ? (
           <Badge color="gray" variant="filled" radius="sm" size="lg" ml={5}>
             Não avaliada
@@ -48,18 +65,22 @@ export default function Redacoes({ redacao }) {
           </Badge>
         )}
 
-        <Text lineClamp={3} my={5} fw={600} size="22px" mb={144} style={{ wordBreak: 'break-word'}}>
+        <Text
+          lineClamp={3}
+          my={5}
+          fw={600}
+          size="22px"
+          mb={144}
+          style={{ wordBreak: "break-word" }}
+        >
           {redacao.text}
         </Text>
       </Box>
 
-      <Divider my='sm'></Divider>
+      <Divider my="sm"></Divider>
 
-      {/* Renderize a animação de carregamento condicionalmente */}
       {isLoading ? (
-        <Flex
-          justify="center" // Centraliza o conteúdo verticalmente e horizontalmente
-        >
+        <Flex justify="center">
           <Loader size="sm" />
         </Flex>
       ) : (

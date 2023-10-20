@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../atom/userAtom';
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimeStamp } from 'firebase/firestore';
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export default function signIn() {
@@ -41,10 +41,16 @@ export default function signIn() {
           userImg: user.photoURL,
           uid: user.uid,
           timestamp: serverTimestamp(),
+          isAdmin: false,
         });
       }
 
-      router.push('/aluno/dashboard');
+      // Verifique se docSnap.data() existe antes de verificar a propriedade 'isAdmin'
+      if (docSnap.exists() && docSnap.data().isAdmin) {
+        router.push("/admin/dashboard");
+      } else {
+        router.push("/aluno/dashboard");
+      }
     } catch (error) {
       console.log(error);
     }

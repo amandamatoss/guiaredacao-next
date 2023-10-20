@@ -7,14 +7,14 @@ import { userState } from "../../atom/userAtom";
 import { useRouter } from "next/router";
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
-import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
+import NavbarItens from "../../components/NavbarItens";
 import { Loader, Flex } from "@mantine/core";
-import { useDisclosure } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger, Button, Group, Image, Text, Modal, Box } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 
-export default function Dashboard() {
+export default function DashboardAdmin() {
   const [selectedOption, setSelectedOption] = useState("inicio");
 
   const router = useRouter();
@@ -23,7 +23,6 @@ export default function Dashboard() {
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(currentUser);
   const auth = getAuth();
 
   useEffect(() => {
@@ -34,12 +33,21 @@ export default function Dashboard() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             setCurrentUser(docSnap.data());
+          } else {
+            setIsLoading(false);
+            router.push("/");
+            return;
           }
+          setIsLoading(false);
         };
-        fetchUser().then(() => setIsLoading(false));
+        fetchUser();
+      } else {
+        setCurrentUser(null);
+        setIsLoading(false);
+        router.push("/");
       }
     });
-  }, []);
+  }, [router, auth, setCurrentUser]);
 
   function onSignOut() {
     signOut(auth);
@@ -47,17 +55,9 @@ export default function Dashboard() {
     router.push("/");
   }
 
-  return (
-    <>
-      {isLoading ? (
-        <Flex
-          align="center"
-          justify="center"
-          style={{ minHeight: "100vh" }} // Centraliza o conteúdo verticalmente e horizontalmente
-        >
-          <Loader size="md" />
-        </Flex>
-      ) : currentUser ? (
+  if (!isLoading) {
+    if (currentUser && currentUser.isAdmin) {
+      return (
         <div>
           <AppShell
             header={{ height: 60 }}
@@ -97,21 +97,9 @@ export default function Dashboard() {
                       Redação
                     </Text>
                     <div className={styles.containerInfo}>
-                      <Box>
-                        <Text fw={600} size="18px">
-                          Média das suas redações
-                        </Text>
-                        {/* De acordo com as redações enviadas! Apenas exemplo */}
-                        <Text fw={800} size="22px" mt={15} display='flex' style={{ alignItems: 'end'}}><Text fw={800} size="36px">780</Text>/1000</Text>
-                      </Box>
-                      <Box>
-                        <Text fw={600} size="18px">Redações disponíveis</Text>
-                        {/* De acordo com o plano! Apenas exemplo */}
-                        <Text fw={800} size="24px" mt={15} display='flex' style={{ alignItems: 'end'}}><Text fw={800} size="36px">1</Text>/2</Text>
-                      </Box>
                     </div>
                     <div className={styles.containerRedacoes}>
-                      <Text fw={500} size='20px'>Minhas redações</Text>
+                      <Text fw={500} size='20px'>Redações</Text>
                       <RedacoesContainer />
                     </div>
                     <Button maw={160} m={"auto"} onClick={open}>
@@ -123,13 +111,10 @@ export default function Dashboard() {
             </AppShell.Main>
           </AppShell>
         </div>
-      ) : (
-        <div>
-          <h2 onClick={() => router.push("/auth/signin")}>
-            fazer login antes de acessar
-          </h2>
-        </div>
-      )}
-    </>
-  );
+      );
+    } else {
+      router.push("/error"); // Redireciona para a página de erro
+      return null; // Não renderiza o conteúdo do painel do administrador
+    }
+  }
 }

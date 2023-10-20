@@ -170,7 +170,7 @@ export default function Input({ isOpen, close }) {
                   <Accordion.Item label="Accordion Item 2" value="motivador">
                     <Accordion.Control>Textos motivadores</Accordion.Control>
                     <Accordion.Panel>
-                      Texto motivador vindo do BD, especifico do tema
+                      {temas.find((tema) => tema.nome === selectedTema)?.motivador}
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
@@ -217,7 +217,7 @@ export default function Input({ isOpen, close }) {
         <Button
           onClick={areBothStepsPassed ? sendPost : nextStep}
           disabled={
-            !selectedTema.trim() ||
+            !selectedTema ||
             (active === 1 && (inputValue.length < 300 || !inputValue.trim()))
           }
         >

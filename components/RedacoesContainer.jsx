@@ -9,27 +9,44 @@ import { Button, Text } from "@mantine/core";
 import styles from '../styles/RedacoesContainer.module.css';
 
 export default function RedacoesContainer() {
-
     const auth = getAuth();
     const [currentUser] = useRecoilState(userState);
     const [redacoes, setRedacoes] = useState([]);
     const [isLoading, setIsLoading] = useState(true); 
     const currentUserUid = currentUser.uid;
+    const isAdmin = currentUser.isAdmin; // Assumindo que 'isAdmin' é uma propriedade no objeto de usuário.
 
     useEffect(() => {
-        const unsubscribe = onSnapshot(
-            query(collection(db, "redacoes"), where("id", "==", currentUserUid), orderBy("timestamp", "desc")),
-            (snapshot) => {
-                setRedacoes(snapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                })));
-                setIsLoading(false); 
-            }
-        );
+        let unsubscribe;
+
+        if (isAdmin) {
+            // Se for administrador, busca todas as redações
+            unsubscribe = onSnapshot(
+                query(collection(db, "redacoes"), orderBy("timestamp", "desc")),
+                (snapshot) => {
+                    setRedacoes(snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    })));
+                    setIsLoading(false); 
+                }
+            );
+        } else {
+            // Se não for administrador, busca apenas as redações do usuário atual
+            unsubscribe = onSnapshot(
+                query(collection(db, "redacoes"), where("id", "==", currentUserUid), orderBy("timestamp", "desc")),
+                (snapshot) => {
+                    setRedacoes(snapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    })));
+                    setIsLoading(false); 
+                }
+            );
+        }
 
         return () => unsubscribe(); 
-    }, []);
+    }, [currentUserUid, isAdmin]);
 
     return (
         <>
@@ -45,7 +62,7 @@ export default function RedacoesContainer() {
                         </div>
                     ) : (
                         redacoes.map((redacao) => (
-                            <Redacoes key={redacao.id} redacao={redacao} />
+                            <Redacoes key={redacao.id} redacao={redacao} currentUser={currentUser}/>
                         ))
                     )}
                 </div>
