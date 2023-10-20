@@ -88,83 +88,89 @@ export default function Post() {
 
     return (
         <>
-       
-        <div className={styles.container}>
-        <ActionIcon style={{ borderRadius: '15px', position: 'absolute', top: '0', left: '0' }} variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
+
+            <div className={styles.container}>
+                <ActionIcon style={{ borderRadius: '15px', position: 'absolute', top: '0', left: '0' }} variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
                     <IconArrowLeft />
                 </ActionIcon>
-            <div className={styles.containerText}>
-                {/* Por tema da redação */}             
+                <div className={styles.containerText}>
+                    {/* Por tema da redação */}
                     <ScrollArea h={'50vh'}>
                         <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px', }}>
                             {redacao.text}
                         </Box>
                     </ScrollArea>
-            </div>
-            <div className={styles.containerInfo}>
-                <div className={styles.dateAndStatusGroup}>
-                    <Text fw={600}>{redacao.timestamp}</Text>
-                    {redacao.status === false ? (
-                        <Badge color="gray" variant="light">
-                            Não avaliada
-                        </Badge>
-                    ) : (
-                        <Badge color="green" variant="light">
-                            Avaliada
-                        </Badge>
+                </div>
+                <div className={styles.containerInfo}>
+                    <div className={styles.dateAndStatusGroup}>
+                        <Text fw={600}>{redacao.timestamp}</Text>
+                        {redacao.status === false ? (
+                            <Badge color="gray" variant="light">
+                                Não avaliada
+                            </Badge>
+                        ) : (
+                            <Badge color="green" variant="light">
+                                Avaliada
+                            </Badge>
+                        )}
+                        
+                    </div>
+                    {notas && notas.length > 0 && (
+                        <div>
+                            <Divider my="sm"/>
+                            <Text>Sua nota</Text>
+                            <Text fw={800} size="22px" ml={5} display="flex" style={{ alignItems: "end" }}>
+                                <Text fw={800} size="36px">{notaSoma}</Text>/1000
+                            </Text>
+                        </div>
                     )}
-                </div>
-                {notas && notas.length > 0 && (
-  <div>
-    <Text>Sua nota</Text>
-    <Text fw={800} size="22px" ml={5} display="flex" style={{ alignItems: "end" }}>
-      <Text fw={800} size="36px">{notaSoma}</Text>/1000
-    </Text>
-  </div>
-)}
-
-                <div style={{ width: '80%' }}>
-                    <Accordion>
-                        <Accordion.Item label="Accordion Item 1" value="instrucoes">
-                            <Accordion.Control>Notas por competência</Accordion.Control>
-                            <Accordion.Panel>
-                            {notas && notas.length > 0 ? (
-                                            notas.map((nota, index) => (
-                                                <div
-                                                    key={index}
-                                                    style={{
-                                                        display: "flex",
-                                                        justifyContent: "space-between",
-                                                        gap: "10px",
-                                                        marginLeft: "10px",
-                                                        marginRight: "10px",
-                                                    }}
-                                                >
-                                                    <span style={{ fontWeight: 700 }}>
-                                                        Competência {index + 1}
-                                                    </span>
-                                                    <span>{nota}</span>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <Text>Você ainda não foi avaliado.</Text>
-                                        )}
-                            </Accordion.Panel>
-                        </Accordion.Item>
-                        <Accordion.Item label="Accordion Item 2" value="motivador">
-                            <Accordion.Control>Informações da redação</Accordion.Control>
-                            <Accordion.Panel>
-                                <Box style={{ backgroundColor: 'gray' , padding: '10px', borderRadius: '10px'}}>
-                                    <Text fw={400} size="16px">Tema: {redacao.tema}</Text>
-                                    <Text>Exemplo:</Text>
-                                    <Text>Exemplo:</Text>
-                                </Box>
-                            </Accordion.Panel>
-                        </Accordion.Item>
-                    </Accordion>
+                   
+                    <div style={{ width: '100%' }}>
+                    <Divider my="sm"/>
+                        <Accordion>
+                            <Accordion.Item label="Accordion Item 1" value="instrucoes">
+                                <Accordion.Control>Notas por competência</Accordion.Control>
+                                <Accordion.Panel>
+                                    <Box  style={{ backgroundColor: '#f1efe8', borderRadius: '10px', padding: '5px'}}>
+                                    {notas && notas.length > 0 ? (
+                                        notas.map((nota, index) => (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-between",
+                                                    gap: "10px",
+                                                    marginLeft: "10px",
+                                                    marginRight: "10px",
+                                                }}
+                                            >
+                                                <span style={{ fontWeight: 600 }}>
+                                                    Competência {index + 1}
+                                                </span>
+                                                <span>{nota}</span>
+                                            </div>
+                                        ))
+                                        
+                                    ) : (
+                                        <Text>Você ainda não foi avaliado.</Text>
+                                    )}
+                                    </Box>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                            <Accordion.Item label="Accordion Item 2" value="motivador">
+                                <Accordion.Control>Informações da redação</Accordion.Control>
+                                <Accordion.Panel>
+                                    <Box style={{ backgroundColor: '#f1efe8', padding: '10px', borderRadius: '10px' }}>
+                                        <Text fw={400} size="16px">Tema: {redacao.tema}</Text>
+                                        <Text>Exemplo:</Text>
+                                        <Text>Exemplo:</Text>
+                                    </Box>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                        </Accordion>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     );
 }

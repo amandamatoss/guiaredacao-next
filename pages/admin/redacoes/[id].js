@@ -11,6 +11,7 @@ import {
     Badge,
     Box,
     Button,
+    Divider,
     ScrollArea,
     Text,
 } from "@mantine/core";
@@ -193,6 +194,7 @@ export default function Post() {
                         </div>
                         {redacao.notas && redacao.notas.length > 0 && (
                             <div>
+                                <Divider my="sm"/>
                                 <Text>Sua nota</Text>
                                 <Text
                                     fw={800}
@@ -208,11 +210,13 @@ export default function Post() {
                                 </Text>
                             </div>
                         )}
-                        <div style={{ width: "80%" }}>
+                        <Divider my="sm"/>
+                        <div style={{ width: "100%"}}>
                             <Accordion>
                                 <Accordion.Item label="Accordion Item 1" value="instrucoes">
                                     <Accordion.Control>Notas por competência</Accordion.Control>
                                     <Accordion.Panel>
+                                        <Box style={{ backgroundColor: '#f1efe8', borderRadius: '10px', padding: '5px'}}>
                                         {redacao.notas && redacao.notas.length > 0 ? (
                                             redacao.notas.map((nota, index) => (
                                                 <div
@@ -225,7 +229,7 @@ export default function Post() {
                                                         marginRight: "10px",
                                                     }}
                                                 >
-                                                    <span style={{ fontWeight: 700 }}>
+                                                    <span style={{ fontWeight: 600 }}>
                                                         Competência {index + 1}
                                                     </span>
                                                     <span>{nota}</span>
@@ -234,6 +238,7 @@ export default function Post() {
                                         ) : (
                                             <Text>Você ainda não avaliou essa redação.</Text>
                                         )}
+                                        </Box>
                                     </Accordion.Panel>
                                 </Accordion.Item>
                                 <Accordion.Item label="Accordion Item 2" value="motivador">
@@ -241,7 +246,7 @@ export default function Post() {
                                     <Accordion.Panel>
                                         <Box
                                             style={{
-                                                backgroundColor: "gray",
+                                                backgroundColor: "#f1efe8",
                                                 padding: "10px",
                                                 borderRadius: "10px",
                                             }}
