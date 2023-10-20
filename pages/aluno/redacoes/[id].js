@@ -7,14 +7,10 @@ import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css'
 import { Accordion, ActionIcon, Badge, Box, Button, Divider, ScrollArea, Text } from "@mantine/core";
-import nlp from 'compromise'
 import { IconArrowLeft } from "@tabler/icons-react";
 
 export default function Post() {
     const [currentUser, setCurrentUser] = useRecoilState(userState);
-    const [sentenceCount, setSentenceCount] = useState(0);
-    const [wordCount, setWordCount] = useState(0);
-    const [letterCount, setLetterCount] = useState(0);
     const [loading, setLoading] = useState(true);
     const [redacao, setRedacao] = useState({});
     const [notas, setNotas] = useState([])
@@ -80,16 +76,7 @@ export default function Post() {
         }
     }, [id, currentUser]);
 
-
-    const deleteRedacao = async () => {
-        try {
-            const redacaoRef = doc(db, "redacoes", id);
-            await deleteDoc(redacaoRef);
-            router.push('/aluno/dashboard');
-        } catch (error) {
-            console.error("Erro ao excluir redação:", error);
-        }
-    };
+    const notaSoma = notas ? notas.reduce((acc, nota) => acc + nota, 0) : 0;
 
     if (loading) {
         return <p>Carregando...</p>;
@@ -100,19 +87,19 @@ export default function Post() {
     }
 
     return (
+        <>
+       
         <div className={styles.container}>
-            <div className={styles.containerText}>
-                <ActionIcon style={{ borderRadius: '15px' }} variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
+        <ActionIcon style={{ borderRadius: '15px', position: 'absolute', top: '0', left: '0' }} variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
                     <IconArrowLeft />
                 </ActionIcon>
-                {/* Por tema da redação */}
-                <div className={styles.containerTextBD}>
-                    <ScrollArea h={'50vh'} >
-                        <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px' }}>
+            <div className={styles.containerText}>
+                {/* Por tema da redação */}             
+                    <ScrollArea h={'50vh'}>
+                        <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px', }}>
                             {redacao.text}
                         </Box>
                     </ScrollArea>
-                </div>
             </div>
             <div className={styles.containerInfo}>
                 <div className={styles.dateAndStatusGroup}>
@@ -127,29 +114,57 @@ export default function Post() {
                         </Badge>
                     )}
                 </div>
+                {notas && notas.length > 0 && (
+  <div>
+    <Text>Sua nota</Text>
+    <Text fw={800} size="22px" ml={5} display="flex" style={{ alignItems: "end" }}>
+      <Text fw={800} size="36px">{notaSoma}</Text>/1000
+    </Text>
+  </div>
+)}
+
                 <div style={{ width: '80%' }}>
                     <Accordion>
                         <Accordion.Item label="Accordion Item 1" value="instrucoes">
                             <Accordion.Control>Notas por competência</Accordion.Control>
                             <Accordion.Panel>
-                                {notas.map((nota, index) => (
-                                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginLeft: '10px', marginRight: '10px'}}>
-                                        <span style={{ fontWeight: 700}}>Competência {index + 1}</span>
-                                        <span>{nota}</span>
-                                    </div>
-                                ))}
+                            {notas && notas.length > 0 ? (
+                                            notas.map((nota, index) => (
+                                                <div
+                                                    key={index}
+                                                    style={{
+                                                        display: "flex",
+                                                        justifyContent: "space-between",
+                                                        gap: "10px",
+                                                        marginLeft: "10px",
+                                                        marginRight: "10px",
+                                                    }}
+                                                >
+                                                    <span style={{ fontWeight: 700 }}>
+                                                        Competência {index + 1}
+                                                    </span>
+                                                    <span>{nota}</span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <Text>Você ainda não foi avaliado.</Text>
+                                        )}
                             </Accordion.Panel>
                         </Accordion.Item>
                         <Accordion.Item label="Accordion Item 2" value="motivador">
                             <Accordion.Control>Informações da redação</Accordion.Control>
                             <Accordion.Panel>
-                                Roger
+                                <Box style={{ backgroundColor: 'gray' , padding: '10px', borderRadius: '10px'}}>
+                                    <Text fw={400} size="16px">Tema: {redacao.tema}</Text>
+                                    <Text>Exemplo:</Text>
+                                    <Text>Exemplo:</Text>
+                                </Box>
                             </Accordion.Panel>
                         </Accordion.Item>
                     </Accordion>
                 </div>
-                <Button onClick={deleteRedacao}>Excluir</Button>
             </div>
         </div>
+        </>
     );
 }

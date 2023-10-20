@@ -50,7 +50,7 @@ export default function Redacoes({ redacao, currentUser }) {
   }
 
   return (
-    <Card padding="md" radius="md" withBorder maw={300}>
+    <Card padding="md" radius="md" withBorder maw={280}>
       <Box style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       {currentUser.isAdmin ? (
         <Text>{redacao.timestamp.toDate().toLocaleDateString()}</Text>

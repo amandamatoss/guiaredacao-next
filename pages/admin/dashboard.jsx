@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens from "../../components/NavbarItens";
-import { Loader, Flex } from "@mantine/core";
 import { useDisclosure } from '@mantine/hooks';
 import { AppShell, Burger, Button, Group, Image, Text, Modal, Box } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
@@ -113,8 +112,8 @@ export default function DashboardAdmin() {
         </div>
       );
     } else {
-      router.push("/error"); // Redireciona para a página de erro
-      return null; // Não renderiza o conteúdo do painel do administrador
+      router.push("/error"); 
+      return null; 
     }
   }
 }

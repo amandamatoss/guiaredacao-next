@@ -194,6 +194,10 @@ export default function Input({ isOpen, close }) {
                 }}
                 placeholder="Digite sua redação"
                 pl={10}
+                spellCheck="false"
+                autoCapitalize="off"
+                autoCorrect="off"
+                autoComplete="off"
               />
               {active === 1 && inputValue.length < 300 && (
                 <Text mt={2} color="gray" align="end">
