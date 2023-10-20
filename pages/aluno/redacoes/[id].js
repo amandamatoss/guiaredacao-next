@@ -6,17 +6,18 @@ import { useEffect, useState } from "react";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css'
-import { ActionIcon, Badge, Box, Button, ScrollArea, Text } from "@mantine/core";
+import { Accordion, ActionIcon, Badge, Box, Button, Divider, ScrollArea, Text } from "@mantine/core";
 import nlp from 'compromise'
 import { IconArrowLeft } from "@tabler/icons-react";
 
 export default function Post() {
     const [currentUser, setCurrentUser] = useRecoilState(userState);
-    const [sentenceCount, setSentenceCount] = useState(0); 
-    const [wordCount, setWordCount] = useState(0); 
-    const [letterCount, setLetterCount] = useState(0); 
+    const [sentenceCount, setSentenceCount] = useState(0);
+    const [wordCount, setWordCount] = useState(0);
+    const [letterCount, setLetterCount] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [redacao, setRedacao] = useState({}); 
+    const [redacao, setRedacao] = useState({});
+    const [notas, setNotas] = useState([])
     const auth = getAuth();
     const router = useRouter();
     const { id } = router.query;
@@ -43,9 +44,9 @@ export default function Post() {
     }, []);
 
     useEffect(() => {
-        
+
         if (id) {
-            
+
             const redacaoRef = doc(db, "redacoes", id);
 
             getDoc(redacaoRef)
@@ -62,8 +63,10 @@ export default function Post() {
                                 status: redacaoData.status,
                                 timestamp: redacaoData.timestamp.toDate().toLocaleDateString(),
                                 tema: redacaoData.tema,
+                                notas: redacaoData.notas,
                             };
-                            setRedacao(redacaoComId); 
+                            setRedacao(redacaoComId);
+                            setNotas(redacaoData.notas);
                         } else {
                             router.push('/aluno/dashboard')
                         }
@@ -75,30 +78,8 @@ export default function Post() {
                     console.error("Erro ao buscar o documento da redação:", error);
                 });
         }
-    }, [id, currentUser]); 
+    }, [id, currentUser]);
 
-    useEffect(() => {
-        
-        if (redacao.text) {
-
-            // Use a biblioteca compromise para analisar o texto
-            const doc = nlp(redacao.text);
-
-            // Extraia as frases do texto
-            const sentences = doc.sentences().out("array");
-
-            // Extraia as palavras do texto
-            const words = redacao.text.split(/\s+/);
-
-            // Calcule a contagem de letras (removendo espaços)
-            const letters = redacao.text;
-
-            // Defina as contagens nos estados
-            setSentenceCount(sentences.length);
-            setWordCount(words.length);
-            setLetterCount(letters.length);
-        }
-    }, [redacao]);
 
     const deleteRedacao = async () => {
         try {
@@ -121,15 +102,16 @@ export default function Post() {
     return (
         <div className={styles.container}>
             <div className={styles.containerText}>
-                <ActionIcon  style={{ borderRadius: '15px'}}variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
+                <ActionIcon style={{ borderRadius: '15px' }} variant="default" size="xl" m={5} onClick={() => router.push('/aluno/dashboard')}>
                     <IconArrowLeft />
                 </ActionIcon>
+                {/* Por tema da redação */}
                 <div className={styles.containerTextBD}>
-                <ScrollArea h={'50vh'}>
-                    <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px'}}>
-                        {redacao.text}
-                    </Box>
-                </ScrollArea>
+                    <ScrollArea h={'50vh'} >
+                        <Box style={{ maxWidth: '100%', wordBreak: 'break-all', whiteSpace: 'pre-wrap', margin: '10px' }}>
+                            {redacao.text}
+                        </Box>
+                    </ScrollArea>
                 </div>
             </div>
             <div className={styles.containerInfo}>
@@ -145,22 +127,26 @@ export default function Post() {
                         </Badge>
                     )}
                 </div>
-                <div>
-                <Text fw={500}>Tema: {redacao.tema}</Text>
-                </div>
-                <div className={styles.statsOfText}>
-                    <Box align="center">
-                        <Text fw={800} size={'30px'}>{wordCount} </Text>
-                        <Text fw={400}>{wordCount === 1 ? "Palavra" : 'Palavras'}</Text>
-                    </Box>
-                    <Box align="center">
-                        <Text fw={800} size={'30px'}>{letterCount} </Text>
-                        <Text fw={400}>{letterCount === 1 ? "Letra" : 'Letras'}</Text>
-                    </Box>
-                    <Box align="center">
-                        <Text fw={800} size={'30px'}>{sentenceCount} </Text>
-                        <Text fw={400}>{sentenceCount === 1 ? "Frase" : 'Frases'}</Text>
-                    </Box>
+                <div style={{ width: '80%' }}>
+                    <Accordion>
+                        <Accordion.Item label="Accordion Item 1" value="instrucoes">
+                            <Accordion.Control>Notas por competência</Accordion.Control>
+                            <Accordion.Panel>
+                                {notas.map((nota, index) => (
+                                    <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginLeft: '10px', marginRight: '10px'}}>
+                                        <span style={{ fontWeight: 700}}>Competência {index + 1}</span>
+                                        <span>{nota}</span>
+                                    </div>
+                                ))}
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                        <Accordion.Item label="Accordion Item 2" value="motivador">
+                            <Accordion.Control>Informações da redação</Accordion.Control>
+                            <Accordion.Panel>
+                                Roger
+                            </Accordion.Panel>
+                        </Accordion.Item>
+                    </Accordion>
                 </div>
                 <Button onClick={deleteRedacao}>Excluir</Button>
             </div>
