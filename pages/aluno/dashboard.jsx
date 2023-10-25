@@ -1,51 +1,96 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
-import { useRecoilState } from "recoil";
-import { userState } from "../../atom/userAtom";
-import { useRouter } from "next/router";
+import { collection, query, where, getDocs, getDoc, doc, setDoc, addDoc, serverTimestamp } from "firebase/firestore";
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
-import NavbarItens, { NavbarDashboard } from "../../components/NavbarItens";
-import { Loader, Flex } from "@mantine/core";
+import NavbarItens from "../../components/NavbarItens";
 import { useDisclosure } from '@mantine/hooks'
-import { AppShell, Burger, Button, Group, Image, Text, Modal, Box } from "@mantine/core";
+import { AppShell, Burger, Button, Group, Image, Text, Modal, Box, Flex, Loader } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getSession, useSession } from "next-auth/react";
+import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from "next/router";
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/signin',
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: {
+      session,
+    }
+  }
+}
 
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
+  const { data: session } = useSession();
+  console.log(session)
+  const router = useRouter()
 
-  const router = useRouter();
-  const [currentUser, setCurrentUser] = useRecoilState(userState);
   const [opened, { toggle }] = useDisclosure();
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [notasRedacoes, setNotasRedacoes] = useState([]);
   const [mediaNotasRedacoes, setMediaNotasRedacoes] = useState(0);
 
-  const auth = getAuth();
-
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const fetchUser = async () => {
-          const docRef = doc(db, "users", auth.currentUser.providerData[0].uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setCurrentUser(docSnap.data());
+    if (session && session.user) {
+      const CreateUser = async () => {
+        const usersCollection = collection(db, 'users');
+        const userQuery = query(usersCollection, where('email', '==', session.user.email));
+        const userDocs = await getDocs(userQuery);
+
+        if (userDocs.empty) {
+          const uniqueUserId = uuidv4(); // Gere um ID único usando uuidv4
+          const userDocumentData = {
+            id: uniqueUserId,
+            name: session.user.name,
+            email: session.user.email,
+            image: session.user.image,
+            isAdmin: false,
+            createdAt: serverTimestamp(),
+            // Outras informações do usuário, se necessário
+          };
+
+          try {
+            // Crie o documento do usuário
+            await addDoc(usersCollection, userDocumentData);
+            console.log('Documento do usuário criado com sucesso.');
+            const userDoc = userDocs.docs[0];
+            session.user.id = userDoc.data().id;
+            setIsLoading(false)
+          } catch (error) {
+            console.error('Erro ao criar o documento do usuário:', error);
           }
-        };
-        fetchUser().then(() => setIsLoading(false));
-      }
-    });
-  }, []);
+
+        } else {
+          // O documento do usuário já existe, defina o session.user.id com base no documento existente
+          const userDoc = userDocs.docs[0];
+          session.user.id = userDoc.data().id;
+          console.log('Documento do usuário já existe.');
+          setIsLoading(false)
+        }
+        
+      };
+
+      CreateUser();
+    }
+  }, [session]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (session) {
       const redacoesRef = collection(db, "redacoes");
-      const q = query(redacoesRef, where("id", "==", currentUser.uid)); 
+      const q = query(redacoesRef, where("email", "==", session.user.email));
   
       getDocs(q)
         .then((querySnapshot) => {
@@ -67,102 +112,86 @@ export default function Dashboard() {
           console.error("Erro ao buscar as redações:", error);
         });
     }
-  }, [currentUser]);
-  
-
-  function onSignOut() {
-    signOut(auth);
-    setCurrentUser(null);
-    router.push("/");
-  }
+  }, [session]);
 
   return (
     <>
-      {isLoading ? (
+    {isLoading ? (
         <Flex
           align="center"
           justify="center"
-          style={{ minHeight: "100vh" }} 
+          style={{ minWidth: '100vw', minHeight: "100vh", position: "absolute", zIndex: '1000', backgroundColor: 'white' }}
         >
           <Loader size="md" />
         </Flex>
-      ) : currentUser ? (
-        <div>
-          <AppShell
-            header={{ height: 60 }}
-            navbar={{
-              width: 300,
-              breakpoint: "sm",
-              collapsed: { mobile: !opened },
-            }}
-            padding="md"
-          >
-            <Modal opened={isOpen} onClose={close} centered size='100vw'>
-              <Input isOpen={isOpen} close={close} />
-            </Modal>
-
-            <AppShell.Header>
-              <Group>
-                <Burger
-                  opened={opened}
-                  onClick={toggle}
-                  hiddenFrom="sm"
-                  size="sm"
-                />
-                <Image src={Logo} alt="roger"></Image>
-              </Group>
-            </AppShell.Header>
-
-            <AppShell.Navbar p="md">
-              <NavbarItens setSelectedOption={setSelectedOption} />
-            </AppShell.Navbar>
-
-            <AppShell.Main>
-              {selectedOption === "inicio" && <h2>Bem vindo, {currentUser.name}</h2>}
-              {selectedOption === "redacoes" && (
-                <>
-                  <div className={styles.container}>
-                    <Text fw={800} size="48px">
-                      Redação
+    ) : null }
+    <div>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{
+          width: 300,
+          breakpoint: "sm",
+          collapsed: { mobile: !opened },
+        }}
+        padding="md"
+      >
+        <Modal opened={isOpen} onClose={close} centered size='100vw'>
+          <Input isOpen={isOpen} close={close} />
+        </Modal>
+  
+        <AppShell.Header>
+          <Group>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            <Image src={Logo} alt="roger"></Image>
+          </Group>
+        </AppShell.Header>
+  
+        <AppShell.Navbar p="md">
+          <NavbarItens setSelectedOption={setSelectedOption} />
+        </AppShell.Navbar>
+  
+        <AppShell.Main>
+          {selectedOption === "inicio" && <h2>Bem vindo, {session?.user.name}</h2>}
+          {selectedOption === "redacoes" && (
+            <>
+              <div className={styles.container}>
+                <Text fw={800} size="48px">
+                  Redação
+                </Text>
+                <div className={styles.containerInfo}>
+                  <Box>
+                    <Text fw={600} size="18px">
+                      Média das suas redações
                     </Text>
-                    <div className={styles.containerInfo}>
-                      <Box>
-                        <Text fw={600} size="18px">
-                          Média das suas redações
-                        </Text>
-                        {/* Exibe a média das notas de todas as redações */}
-                        <Text fw={800} size="22px" mt={15} display="flex" style={{ alignItems: "end" }}>
-                          <Text fw={800} size="36px">{mediaNotasRedacoes}</Text>/1000
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text fw={600} size="18px">Redações disponíveis</Text>
-                        {/* De acordo com o plano! Apenas exemplo */}
-                        <Text fw={800} size="24px" mt={15} display="flex" style={{ alignItems: "end" }}>
-                          <Text fw={800} size="36px">1</Text>/2
-                        </Text>
-                      </Box>
-                    </div>
-                    <div className={styles.containerRedacoes}>
-                      <Text fw={500} size="20px">Minhas redações</Text>
-                      <RedacoesContainer />
-                    </div>
-                    <Button maw={160} m={"auto"} onClick={open}>
-                      Nova redação
-                    </Button>
-                  </div>
-                </>
-              )}
-            </AppShell.Main>
-          </AppShell>
-        </div>
-      ) : (
-        <div>
-          <h2 onClick={() => router.push("/auth/signin")}>
-            fazer login antes de acessar
-          </h2>
-        </div>
-      )}
+                    <Text fw={800} size="22px" mt={15} display="flex" style={{ alignItems: "end" }}>
+                      <Text fw={800} size="36px">{mediaNotasRedacoes}</Text>/1000
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Text fw={600} size="18px">Redações disponíveis</Text>
+                    <Text fw={800} size="24px" mt={15} display="flex" style={{ alignItems: "end" }}>
+                      <Text fw={800} size="36px">1</Text>/2
+                    </Text>
+                  </Box>
+                </div>
+                <div className={styles.containerRedacoes}>
+                  <Text fw={500} size="20px">Minhas redações</Text>
+                  <RedacoesContainer />
+                </div>
+                <Button maw={160} m={"auto"} onClick={open}>
+                  Nova redação
+                </Button>
+              </div>
+            </>
+          )}
+        </AppShell.Main>
+      </AppShell>
+    </div>
     </>
   );
 }

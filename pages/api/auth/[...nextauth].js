@@ -10,15 +10,12 @@ export default NextAuth({
       }),
       // ...add more providers here
     ],
-  
-    pages: {
-      signIn: "/auth/signin",
+    session: {
+      jwt: true,
     },
-    
     callbacks: {
-      async session({ session, token }) {
-        session.user.uid = token.sub;
-        return session;
-      },
+      session: ({ session }) => ({
+        ...session,
+      }),
     },
   });

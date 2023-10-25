@@ -1,60 +1,29 @@
-import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { userState } from '../../atom/userAtom';
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { signIn, useSession } from 'next-auth/react'; // Importe useSession
 
-export default function signIn() {
+export default function Login() {
   const router = useRouter();
-  const [currentUser, setCurrentUser] = useRecoilState(userState);
-
-  useEffect(() => {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const docRef = doc(db, 'users', user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          setCurrentUser(docSnap.data());
-        }
-      }
-    });
-  }, []);
+  const { data: session, status } = useSession(); // Use useSession para verificar a sessão
 
   const handleGoogleSignIn = async () => {
     try {
-      const auth = getAuth();
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      const user = auth.currentUser.providerData[0];
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (!docSnap.exists()) {
-        await setDoc(docRef, {
-          name: user.displayName,
-          email: user.email,
-          userImg: user.photoURL,
-          uid: user.uid,
-          timestamp: serverTimestamp(),
-          isAdmin: false,
-        });
-      }
-
-      // Verifique se docSnap.data() existe antes de verificar a propriedade 'isAdmin'
-      if (docSnap.exists() && docSnap.data().isAdmin) {
-        router.push("/admin/dashboard");
-      } else {
-        router.push("/aluno/dashboard");
-      }
+      await signIn('google', { callbackUrl: 'http://localhost:3000/aluno/dashboard' });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
-  return <button onClick={handleGoogleSignIn}>Sign</button>;
+  // Verifique se há uma sessão ativa
+  if (status === 'authenticated') {
+    // Se o usuário estiver autenticado, redirecione para a página "aluno/dashboard"
+    router.push('/aluno/dashboard');
+    return null; // Você pode retornar null ou qualquer outra coisa aqui
+  }
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <button onClick={handleGoogleSignIn}>Sign In with Google</button>
+    </div>
+  );
 }

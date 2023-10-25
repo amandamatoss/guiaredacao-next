@@ -5,35 +5,27 @@ import {
   IconFileDescription,
   IconGraph,
 } from "@tabler/icons-react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged} from "firebase/auth";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { userState } from "../atom/userAtom";
 import { db } from "../firebase";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 export default function NavbarItens({ setSelectedOption }) {
 
   // 
 
-  const [currentUser, setCurrentUser] = useRecoilState(userState);
   const auth = getAuth();
   const router = useRouter()
   //
-  console.log(currentUser);
 
   // 
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
   };
-
-  function onSignOut() {
-    signOut(auth);
-    setCurrentUser(null);
-    router.push("/");
-  }
 
   return (
     <div className={styles.container}>
@@ -56,7 +48,7 @@ export default function NavbarItens({ setSelectedOption }) {
         </li>
       </ul>
       <ul>
-        <li onClick={onSignOut}>
+        <li onClick={() => signOut()}>
           <IconGraph />
           <Text fw={600}>Log out</Text>
         </li>

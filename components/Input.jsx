@@ -18,12 +18,11 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
-import { useRecoilState } from "recoil";
-import { userState } from "./../atom/userAtom";
 import compromise from "compromise";
 import { useMediaQuery } from "@mantine/hooks";
 import styles from "../styles/Input.module.css";
 import { Accordion, AccordionItem } from "@mantine/core";
+import { useSession } from "next-auth/react";
 
 export default function Input({ isOpen, close }) {
   const [active, setActive] = useState(0);
@@ -32,9 +31,8 @@ export default function Input({ isOpen, close }) {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-  const auth = getAuth();
+  const { data: session } = useSession()
 
-  const [currentUser] = useRecoilState(userState);
   const [inputValue, setInputValue] = useState("");
   const [selectedTema, setSelectedTema] = useState("");
   const [temas, setTemas] = useState([]);
@@ -92,13 +90,14 @@ export default function Input({ isOpen, close }) {
     }
 
     await addDoc(collection(db, "redacoes"), {
-      id: currentUser.uid,
+      id: session.user.id,
       text: inputValue,
       tema: selectedTema,
       timestamp: serverTimestamp(),
-      name: currentUser.name,
+      name: session.user.name,
       status: false,
       avaliacao: "",
+      email: session.user.email,
     });
 
     setInputValue("");

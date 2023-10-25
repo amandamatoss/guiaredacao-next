@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useRecoilState } from "recoil";
-import { userState } from "../../atom/userAtom";
 import { useRouter } from "next/router";
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";

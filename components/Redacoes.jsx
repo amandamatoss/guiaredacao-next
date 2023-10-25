@@ -32,15 +32,7 @@ export default function Redacoes({ redacao, currentUser }) {
       if (!querySnapshot.empty) {
         const doc = querySnapshot.docs[0];
         const documentId = doc.id;
-
-        // Verifique se o usuário é um administrador
-        if (currentUser && currentUser.isAdmin) {
-          // Redireciona para a rota de administrador
-          router.push(`/admin/redacoes/${documentId}`);
-        } else {
-          // Navega para a página de detalhes com o ID do documento como parâmetro
-          router.push(`/aluno/redacoes/${documentId}`);
-        }
+        router.push(`/aluno/redacoes/${documentId}`)
       }
     } catch (error) {
       console.error("Erro ao buscar documento:", error);
@@ -52,9 +44,6 @@ export default function Redacoes({ redacao, currentUser }) {
   return (
     <Card padding="md" radius="md" withBorder maw={280}>
       <Box style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      {currentUser.isAdmin ? (
-        <Text>{redacao.timestamp.toDate().toLocaleDateString()}</Text>
-      ) : null}
         {redacao.status === false ? (
           <Badge color="gray" variant="filled" radius="sm" size="lg" ml={5}>
             Não avaliada

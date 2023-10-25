@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { userState } from "../../../atom/userAtom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
