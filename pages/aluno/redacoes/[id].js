@@ -5,18 +5,37 @@ import { db } from "../../../firebase";
 import styles from '../../../styles/id.module.css';
 import { Accordion, ActionIcon, Badge, Box, Divider, ScrollArea, Text } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+  
+    if (!session) {
+      return {
+        redirect: {
+          destination: "/auth/signin",
+          permanent: false,
+        },
+      };
+    }
+  
+    return {
+      props: {
+        session,
+      },
+    };
+  }
 
 export default function Post() {
     const [redacao, setRedacao] = useState({});
     const [notas, setNotas] = useState([]);
     const router = useRouter();
     const { id } = router.query;
-    const { data: session, status } = useSession();
+    const { data: session } = useSession()
     console.log(session)
 
     useEffect(() => {
-        if (id && status ===  'authenticated') {
+        if (session) {
             const redacaoRef = doc(db, "redacoes", id);
             getDoc(redacaoRef)
                 .then((docSnap) => {
@@ -45,14 +64,9 @@ export default function Post() {
                     console.error("Erro ao buscar o documento da redação:", error);
                 });
         }
-    }, [id, status]);
+    }, [id]);
 
     const notaSoma = notas ? notas.reduce((acc, nota) => acc + nota, 0) : 0;
-
-    if (status === 'unauthenticated') {
-        // Se a sessão ainda está sendo carregada, você pode mostrar um indicador de carregamento
-        router.push('/error')
-    }
     
     return (
         <div className={styles.container}>
