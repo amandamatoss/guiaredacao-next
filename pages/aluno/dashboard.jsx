@@ -11,7 +11,7 @@ import {
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens from "../../components/NavbarItens";
-import { useDisclosure, useMediaQuery} from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   AppShell,
   Button,
@@ -30,6 +30,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -114,22 +115,28 @@ export default function Dashboard() {
       getDocs(q)
         .then((querySnapshot) => {
           const notas = [];
+          let numeroRedacoesCorrigidas = 0; // Inicialize um contador para redações corrigidas
+
           querySnapshot.forEach((doc) => {
             const redacaoData = doc.data();
             const notasRedacao = redacaoData.notas || [];
-            const somaNotasRedacao = notasRedacao.reduce(
-              (acc, nota) => acc + nota,
-              0
-            );
-            notas.push(somaNotasRedacao);
+
+            if (redacaoData.status === true) { // Verifique se a redação está corrigida
+              const somaNotasRedacao = notasRedacao.reduce(
+                (acc, nota) => acc + nota,
+                0
+              );
+              notas.push(somaNotasRedacao);
+              numeroRedacoesCorrigidas++; // Incrementa o contador de redações corrigidas
+            }
           });
 
           setNotasRedacoes(notas);
 
-          // Calcula a média das somas das notas de todas as redações
+          // Calcula a média das somas das notas de todas as redações corrigidas
           const mediaNotas =
-            notas.length > 0
-              ? notas.reduce((acc, soma) => acc + soma, 0) / notas.length
+            numeroRedacoesCorrigidas > 0
+              ? notas.reduce((acc, soma) => acc + soma, 0) / numeroRedacoesCorrigidas
               : 0;
           setMediaNotasRedacoes(mediaNotas);
         })
@@ -138,6 +145,7 @@ export default function Dashboard() {
         });
     }
   }, [session]);
+
 
   return (
     <>
@@ -157,19 +165,19 @@ export default function Dashboard() {
         </Flex>
       ) : null}
       <div>
-          <AppShell
-            header={{ height: 60 }}
-            navbar={{
-              width: 220,
-              breakpoint: 576,
-            }}
-            padding="md"
-          >
-          <Modal opened={isOpen} onClose={close} centered size="100vw">
+        <AppShell
+          header={{ height: 60 }}
+          navbar={{
+            width: 200,
+            breakpoint: 576,
+          }}
+          padding="md"
+        >
+          <Modal opened={isOpen} onClose={close} centered size="100vw" >
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
-          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 15px 0 15px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)', zIndex: '1000'}}>
+          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 15px 0 15px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)' }}>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Image src={Logo} width={100} height={100} />
@@ -177,7 +185,7 @@ export default function Dashboard() {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Menu>
                 <Menu.Target>
-                  <Avatar src={session.user.image} style={{ cursor: 'pointer' }} />
+                  <Avatar src={session?.user.image} style={{ cursor: 'pointer' }} />
                 </Menu.Target>
 
               </Menu>
@@ -185,26 +193,26 @@ export default function Dashboard() {
           </AppShell.Header>
 
           {!matches && (
-          <AppShell.Navbar p="md">
-            <Flex justifyContent="center">
-              <NavbarItens setSelectedOption={setSelectedOption} />
+            <AppShell.Navbar p="md">
+              <Flex>
+                <NavbarItens setSelectedOption={setSelectedOption} openModal={open} />
+              </Flex>
+            </AppShell.Navbar>
+          )}
+          {matches && (
+            <Flex
+              style={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                zIndex: 1000,
+                backgroundColor: "#fff",
+              }}
+            >
+              <NavbarItens setSelectedOption={setSelectedOption} openModal={open} />
             </Flex>
-          </AppShell.Navbar>
-        )}
-        {matches && (
-          <Flex
-            style={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              width: "100%",
-              zIndex: 1000,
-              backgroundColor: "#fff",
-            }}
-          >
-            <NavbarItens setSelectedOption={setSelectedOption} />
-          </Flex>
-        )}
+          )}
 
 
           <AppShell.Main>
@@ -216,57 +224,37 @@ export default function Dashboard() {
             {selectedOption === "redacoes" && (
               <>
                 <div className={styles.container}>
-                  <Text fw={800} size="48px">
-                    Redação
-                  </Text>
-                  <div className={styles.containerInfo}>
-                    <Box>
-                      <Text fw={600} size="18px">
-                        Média das suas redações
-                      </Text>
-                      <Text
-                        fw={800}
-                        size="22px"
-                        mt={15}
-                        display="flex"
-                        style={{ alignItems: "end" }}
-                      >
-                        <Text fw={800} size="36px">
-                          {mediaNotasRedacoes}
-                        </Text>
-                        /1000
-                      </Text>
-                    </Box>
-                    <Box>
-                      <Text fw={600} size="18px">
-                        Redações disponíveis
-                      </Text>
-                      <Text
-                        fw={800}
-                        size="24px"
-                        mt={15}
-                        display="flex"
-                        style={{ alignItems: "end" }}
-                      >
-                        <Text fw={800} size="36px">
-                          1
-                        </Text>
-                        /2
-                      </Text>
-                    </Box>
-                  </div>
                   <div className={styles.containerRedacoes}>
                     <Text fw={500} size="20px">
                       Minhas redações
                     </Text>
                     <RedacoesContainer />
                   </div>
-                  <Button maw={160} m={"auto"} onClick={open}>
+                  <Button maw={160} m={"auto"} onClick={open} mt={10} style={{ backgroundColor: 'green' }}>
                     Nova redação
                   </Button>
                 </div>
               </>
             )}
+            {selectedOption === "evolucao" && (
+              <Flex direction="column" align="center" m={30}>
+                <div style={{ width: '80%', height: 400 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={[{ name: 'Ponto Inicial', nota: 0 }, ...notasRedacoes.map((nota, index) => ({ name: `Redação ${index + 1}`, nota }))]}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis domain={[0, 'auto']} />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="nota" stroke="green" activeDot={{ r: 8 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </Flex>
+            )}
+
           </AppShell.Main>
         </AppShell>
       </div>

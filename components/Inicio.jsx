@@ -28,18 +28,22 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                 <Grid.Col span={{ base: 12, xs: 4 }}>
                     <Paper withBorder h={'100%'} p={15} radius="md">
                         <Text fw={800}>Seja bem vindo, {session.user.name} 😁</Text>
-                        <Text>Lorem ipsum, lkansdqda asdqdw,as sad sad,sa, d,w, da,sd,s,dqwdasda </Text>
+                        {notasRedacoes.length === 0 ? (
+                        <Text>Escreva sua primeira redação conosco. Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
+                    ) : (
+                        <Text>Vamos praticar a sua redação? Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
+                    )}
                     </Paper>
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, xs: 8 }}>
                     <Carousel
                         withIndicators
-                        height={200}
-                        draggable={false}
+                        loop
                         style={{
                             border: '1px solid transparent', 
                             borderRadius: '10px',
-                            overflow: 'hidden' 
+                            overflow: 'hidden',
+                            maxHeight: '200px'
                         }}
                     >
                         {temas.map((tema, index) => (
@@ -47,6 +51,7 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                                 <div style={{ position: 'relative' }}>
                                     <Image src={tema.image} style={{
                                         filter: 'brightness(45%)',
+                                        objectFit: 'cover',
                                     }} />
                                     <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
                                         <Text size="md" c="gray">Temas Disponíveis</Text>

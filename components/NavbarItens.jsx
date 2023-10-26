@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Box, Text } from "@mantine/core";
+import { Box, Button, Divider, Modal, Text } from "@mantine/core";
 import { IconDashboard, IconFileDescription, IconGraph } from "@tabler/icons-react";
 import { useMediaQuery } from '@mantine/hooks';
 
-export default function NavbarItens({ setSelectedOption }) {
+export default function NavbarItens({ setSelectedOption, openModal }) {
   const [selected, setSelected] = useState("inicio");
   const isMobile = useMediaQuery("(max-width: 576px)");
 
@@ -16,7 +16,7 @@ export default function NavbarItens({ setSelectedOption }) {
     <Box
       position="fixed"
       display={isMobile ? "flex" : undefined}
-      justifyContent={isMobile ? "space-between" : "space-between"}
+      justify={isMobile ? "space-between" : "space-between"}
     >
       <Box
         onClick={() => handleOptionChange("inicio")}
@@ -80,6 +80,10 @@ export default function NavbarItens({ setSelectedOption }) {
         />
         {!isMobile && <Text style={{ marginLeft: 4, color: selected === "evolucao" ? "white" : "inherit" }}>Evolução</Text>}
       </Box>
+
+      <Divider my='sm'/>
+
+      <Button fullWidth onClick={openModal}style={{ backgroundColor: 'green', display: isMobile === true ? "none" : "block"}}>Redigir</Button>
     </Box>
   );
 }

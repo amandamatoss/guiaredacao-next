@@ -4,7 +4,7 @@ export default function Login() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signIn('google', { callbackUrl: 'http://localhost:3000/aluno/dashboard' });
+      await signIn('google', { callbackUrl: 'http://localhost:3000/aluno/dashboard'})
     } catch (error) {
       console.error(error);
     }
