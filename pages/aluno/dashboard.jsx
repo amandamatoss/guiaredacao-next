@@ -11,12 +11,10 @@ import {
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens from "../../components/NavbarItens";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery} from "@mantine/hooks";
 import {
   AppShell,
-  Burger,
   Button,
-  Group,
   Text,
   Modal,
   Box,
@@ -30,6 +28,8 @@ import styles from "../../styles/Dashboard.module.css";
 import { getSession, useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import Inicio from "../../components/Inicio";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -54,13 +54,12 @@ export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
   const { data: session } = useSession();
   console.log(session);
-  const router = useRouter();
 
-  const [opened, { toggle }] = useDisclosure();
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [notasRedacoes, setNotasRedacoes] = useState([]);
   const [mediaNotasRedacoes, setMediaNotasRedacoes] = useState(0);
+  const matches = useMediaQuery("(max-width: 576px)");
 
   useEffect(() => {
     if (session && session.user) {
@@ -158,56 +157,61 @@ export default function Dashboard() {
         </Flex>
       ) : null}
       <div>
-        <AppShell
-          header={{ height: 60 }}
-          navbar={{
-            width: 300,
-            breakpoint: "sm",
-            collapsed: { mobile: !opened },
-          }}
-          padding="md"
-        >
+          <AppShell
+            header={{ height: 60 }}
+            navbar={{
+              width: 220,
+              breakpoint: 576,
+            }}
+            padding="md"
+          >
           <Modal opened={isOpen} onClose={close} centered size="100vw">
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
-          <AppShell.Header>
-            <Group style={{ justifyContent: "space-between", }}>
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                hiddenFrom="sm"
-                size="sm"
-              />
-                <Text fw={800} size="24px">Bem vindo, {session.user.name}</Text>
-                <Group>
-                
-                <Menu>
-                  <Menu.Target>
-                    <Avatar src={session.user.image} style={{ cursor: 'pointer' }}></Avatar>
-                  </Menu.Target>
+          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 15px 0 15px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)', zIndex: '1000'}}>
 
-                  <Menu.Dropdown>
-                    <Menu.Label>
-                      Opções
-                    </Menu.Label>
-                    
-                    <Menu.Item>
-                      Criar
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-                </Group>
-            </Group>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Image src={Logo} width={100} height={100} />
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Menu>
+                <Menu.Target>
+                  <Avatar src={session.user.image} style={{ cursor: 'pointer' }} />
+                </Menu.Target>
+
+              </Menu>
+            </div>
           </AppShell.Header>
 
+          {!matches && (
           <AppShell.Navbar p="md">
-            <NavbarItens setSelectedOption={setSelectedOption} />
+            <Flex justifyContent="center">
+              <NavbarItens setSelectedOption={setSelectedOption} />
+            </Flex>
           </AppShell.Navbar>
+        )}
+        {matches && (
+          <Flex
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              zIndex: 1000,
+              backgroundColor: "#fff",
+            }}
+          >
+            <NavbarItens setSelectedOption={setSelectedOption} />
+          </Flex>
+        )}
+
 
           <AppShell.Main>
             {selectedOption === "inicio" && (
-              <h2>Inicio</h2>
+              <Inicio session={session}
+                mediaNotasRedacoes={mediaNotasRedacoes}
+                notasRedacoes={notasRedacoes} />
             )}
             {selectedOption === "redacoes" && (
               <>

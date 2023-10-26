@@ -1,58 +1,85 @@
-import { Button, Text } from "@mantine/core";
-import styles from "../styles/NavbarItens.module.css";
-import {
-  IconDashboard,
-  IconFileDescription,
-  IconGraph,
-} from "@tabler/icons-react";
-import { getAuth, onAuthStateChanged} from "firebase/auth";
-import { useRecoilState } from "recoil";
-import { useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import { useRouter } from "next/router";
-import { signOut } from "next-auth/react";
+import React, { useState } from "react";
+import { Box, Text } from "@mantine/core";
+import { IconDashboard, IconFileDescription, IconGraph } from "@tabler/icons-react";
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function NavbarItens({ setSelectedOption }) {
-
-  // 
-
-  const auth = getAuth();
-  const router = useRouter()
-  //
-
-  // 
+  const [selected, setSelected] = useState("inicio");
+  const isMobile = useMediaQuery("(max-width: 576px)");
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
+    setSelected(option);
   };
 
   return (
-    <div className={styles.container}>
-      <ul>
-        <li onClick={() => handleOptionChange('inicio')}>
-          <IconDashboard />
-          <Text fw={600}>Inicio</Text>
-        </li>
-      </ul>
-      <ul>
-        <li onClick={() => handleOptionChange('redacoes')}>
-          <IconFileDescription />
-          <Text fw={600}>Redações</Text>
-        </li>
-      </ul>
-      <ul>
-        <li onClick={() => handleOptionChange('evolucao')}>
-          <IconGraph />
-          <Text fw={600}>Evolução</Text>
-        </li>
-      </ul>
-      <ul>
-        <li onClick={() => signOut()}>
-          <IconGraph />
-          <Text fw={600}>Log out</Text>
-        </li>
-      </ul>
-    </div>
+    <Box
+      position="fixed"
+      display={isMobile ? "flex" : undefined}
+      justifyContent={isMobile ? "space-between" : "space-between"}
+    >
+      <Box
+        onClick={() => handleOptionChange("inicio")}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: "center",
+          padding: "6px",
+          backgroundColor: selected === "inicio" ? "green" : "transparent",
+          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
+          marginBottom: isMobile ? 0 : 10,
+          borderRadius: '4px',
+        }}
+      >
+        <IconDashboard
+          size={24}
+          style={{ marginRight: isMobile ? 0 : 8, color: selected === "inicio" ? "white" : "inherit" }}
+        />
+        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "inicio" ? "white" : "inherit" }}>Início</Text>}
+      </Box>
+
+      <Box
+        onClick={() => handleOptionChange("redacoes")}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: "center",
+          padding: "6px",
+          backgroundColor: selected === "redacoes" ? "green" : "transparent",
+          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
+          marginBottom: isMobile ? 0 : 10,
+          borderRadius: '4px'
+        }}
+      >
+        <IconFileDescription
+          size={24}
+          style={{ marginRight: isMobile ? 0 : 8, color: selected === "redacoes" ? "white" : "inherit" }}
+        />
+        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "redacoes" ? "white" : "inherit" }}>Redações</Text>}
+      </Box>
+
+      <Box
+        onClick={() => handleOptionChange("evolucao")}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: "center",
+          padding: "6px",
+          backgroundColor: selected === "evolucao" ? "green" : "transparent",
+          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
+          marginBottom: isMobile ? 0 : 10,
+          borderRadius: '4px'
+        }}
+      >
+        <IconGraph
+          size={24}
+          style={{ marginRight: isMobile ? 0 : 8, color: selected === "evolucao" ? "white" : "inherit" }}
+        />
+        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "evolucao" ? "white" : "inherit" }}>Evolução</Text>}
+      </Box>
+    </Box>
   );
 }
