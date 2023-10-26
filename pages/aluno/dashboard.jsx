@@ -22,15 +22,17 @@ import {
   Loader,
   Avatar,
   Menu,
+  Divider,
 } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
-import { getSession, useSession } from "next-auth/react";
+import { getSession, signOut, useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import Head from "next/head";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -149,6 +151,9 @@ export default function Dashboard() {
 
   return (
     <>
+      <Head>
+        <title>Aluno | GUIA</title>
+      </Head>
       {isLoading ? (
         <Flex
           align="center"
@@ -177,17 +182,38 @@ export default function Dashboard() {
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
-          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 15px 0 15px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)' }}>
+          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 25px 0 25px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)' }}>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Image src={Logo} width={100} height={100} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Menu>
+              <Menu position="bottom-end" withArrow>
                 <Menu.Target>
-                  <Avatar src={session?.user.image} style={{ cursor: 'pointer' }} />
+                  <Avatar src={session?.user.image} style={{ cursor: 'pointer'}} />
                 </Menu.Target>
-
+                <Menu.Dropdown p={10}>
+                 
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', }} size={90}/>
+                  </div>
+                 
+                  <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
+                  
+                  <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
+                
+                  <Divider style={{ margin: "10px 0" }} />
+                 
+                  <Text>Conta</Text>
+                 
+                  <Text>Ajuda</Text>
+                
+                  <Divider style={{ margin: "10px 0" }} />
+                 
+                  <Button onClick={signOut} variant='transparent' style={{ color: "black", margin: "0 auto", display: "block", border: '1px solid gray' }}>
+                    SAIR
+                  </Button>
+                </Menu.Dropdown>
               </Menu>
             </div>
           </AppShell.Header>

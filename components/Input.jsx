@@ -17,11 +17,9 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { getAuth } from "firebase/auth";
 import compromise from "compromise";
 import { useMediaQuery } from "@mantine/hooks";
-import styles from "../styles/Input.module.css";
-import { Accordion, AccordionItem } from "@mantine/core";
+import { Accordion } from "@mantine/core";
 import { useSession } from "next-auth/react";
 
 export default function Input({ isOpen, close }) {
@@ -123,6 +121,7 @@ export default function Input({ isOpen, close }) {
         orientation={isMobile ? "vertical" : "horizontal"}
         active={active}
         onStepClick={setActive}
+        color="green"
       >
         <Stepper.Step label="Primeiro passo" description="Escolha o tema">
           <Select
@@ -199,7 +198,7 @@ export default function Input({ isOpen, close }) {
                 autoComplete="off"
               />
               {active === 1 && inputValue.length < 300 && (
-                <Text mt={2} color="gray" align="end">
+                <Text mt={2} c="gray" align="end">
                   Mínimo de 300 caracteres.
                 </Text>
               )}
@@ -218,6 +217,7 @@ export default function Input({ isOpen, close }) {
           Voltar
         </Button>
         <Button
+          color="green"
           onClick={areBothStepsPassed ? sendPost : nextStep}
           disabled={
             !selectedTema ||

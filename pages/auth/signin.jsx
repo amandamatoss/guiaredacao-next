@@ -1,4 +1,5 @@
 import { signIn } from 'next-auth/react'; // Importe useSession
+import Head from 'next/head';
 
 export default function Login() {
 
@@ -11,9 +12,14 @@ export default function Login() {
   };
 
   return (
+    <>
+    <Head>
+        <title>Login | GUIA</title>
+      </Head>
     <div>
       <h1>Login</h1>
       <button onClick={handleGoogleSignIn}>Sign In with Google</button>
     </div>
+    </>
   );
 }

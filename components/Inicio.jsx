@@ -23,24 +23,24 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
     const mappedMedia = mediaNotasRedacoes / 10;
 
     return (
-        <Container my="md">
+        <Container size='xl'>
             <Grid>
-                <Grid.Col span={{ base: 12, xs: 4 }}>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4 }}>
                     <Paper withBorder h={'100%'} p={15} radius="md">
-                        <Text fw={800}>Seja bem vindo, {session.user.name} 😁</Text>
+                    <Text fw={800}>Seja bem-vindo, {session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)} 😁</Text>
                         {notasRedacoes.length === 0 ? (
-                        <Text>Escreva sua primeira redação conosco. Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
-                    ) : (
-                        <Text>Vamos praticar a sua redação? Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
-                    )}
+                            <Text>Escreva sua primeira redação conosco. Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
+                        ) : (
+                            <Text>Vamos praticar a sua redação? Escolha o tema da sua preferência, escreva e deixe que o GUIA resolve o resto!</Text>
+                        )}
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 8 }}>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 8 }}>
                     <Carousel
                         withIndicators
                         loop
                         style={{
-                            border: '1px solid transparent', 
+                            border: '1px solid transparent',
                             borderRadius: '10px',
                             overflow: 'hidden',
                             maxHeight: '200px'
@@ -48,10 +48,10 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                     >
                         {temas.map((tema, index) => (
                             <Carousel.Slide key={index}>
-                                <div style={{ position: 'relative' }}>
+                                <div>
                                     <Image src={tema.image} style={{
                                         filter: 'brightness(45%)',
-                                        objectFit: 'cover',
+                                        height: '200px'
                                     }} />
                                     <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
                                         <Text size="md" c="gray">Temas Disponíveis</Text>
@@ -62,8 +62,8 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                         ))}
                     </Carousel>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 9 }}>{child}</Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 3 }}>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 9 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>
                     <Paper
                         withBorder
                         h={'100%'}
@@ -89,9 +89,9 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                     </Paper>
                 </Grid.Col>
 
-                <Grid.Col span={{ base: 12, xs: 3 }}>{child}</Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 3 }}>{child}</Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 6 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>{child}</Grid.Col>
             </Grid>
         </Container>
     )
