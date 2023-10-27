@@ -83,6 +83,7 @@ export default function Dashboard() {
             image: session.user.image,
             isAdmin: false,
             createdAt: serverTimestamp(),
+            plan: 'free',
             // Outras informações do usuário, se necessário
           };
 
@@ -173,7 +174,7 @@ export default function Dashboard() {
         <AppShell
           header={{ height: 60 }}
           navbar={{
-            width: 200,
+            width: 230,
             breakpoint: 576,
           }}
           padding="md"
@@ -182,7 +183,7 @@ export default function Dashboard() {
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
-          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 25px 0 25px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)' }}>
+          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 25px 0 25px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)'}}>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Image src={Logo} width={100} height={100} />
@@ -204,8 +205,6 @@ export default function Dashboard() {
                 
                   <Divider style={{ margin: "10px 0" }} />
                  
-                  <Text>Conta</Text>
-                 
                   <Text>Ajuda</Text>
                 
                   <Divider style={{ margin: "10px 0" }} />
@@ -219,7 +218,7 @@ export default function Dashboard() {
           </AppShell.Header>
 
           {!matches && (
-            <AppShell.Navbar p="md">
+            <AppShell.Navbar p="md" zIndex={1}>
               <Flex>
                 <NavbarItens setSelectedOption={setSelectedOption} openModal={open} />
               </Flex>

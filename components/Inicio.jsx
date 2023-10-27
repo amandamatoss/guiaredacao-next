@@ -62,8 +62,9 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                         ))}
                     </Carousel>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 9 }}>{child}</Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>
+                <Grid.Col span={{ base: 12, xs: 4, sm: 4, md: 4 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 4, sm: 4, md: 4 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 4, sm: 4, md: 4 }}>
                     <Paper
                         withBorder
                         h={'100%'}
@@ -88,8 +89,6 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                         />
                     </Paper>
                 </Grid.Col>
-
-                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>{child}</Grid.Col>
                 <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>{child}</Grid.Col>
                 <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>{child}</Grid.Col>
             </Grid>
