@@ -88,14 +88,13 @@ export default function Redacoes({ redacao }) {
   }
 
   return (
-    <Card padding="md" radius="md" withBorder maw={300}>
+    <Card padding="md" radius="md" withBorder h='100%'>
       <Box
         style={{
           display: "flex",
           flexDirection: "column",
           cursor: "pointer",
           gap: "10px",
-          height: "100%",
         }}
         onClick={getDocumentId}
         ref={ref}
@@ -124,10 +123,6 @@ export default function Redacoes({ redacao }) {
           <Group gap={6} style={{ display: "flex", alignItems: "flex-start" }}>
             <IconAlignLeft size={18} />
             <Text style={{ flex: "1" }}>{redacao.tema}</Text>
-          </Group>
-          <Group gap={4} style={{ display: "flex", alignItems: "center" }}>
-            <IconPencil size={18} style={{ color: "green" }} />
-            <Text>900</Text>
           </Group>
           <Group gap={4} style={{ display: "flex", alignItems: "flex-end" }}>
             <IconClockHour3 size={18} style={{ color: "green" }} />

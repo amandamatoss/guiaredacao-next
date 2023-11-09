@@ -2,9 +2,7 @@ import { collection, doc, getDoc, onSnapshot, orderBy, query, where } from "fire
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import Redacoes from "./Redacoes";
-import { getAuth } from "firebase/auth";
-import { useRecoilState } from "recoil";
-import { Button, Text } from "@mantine/core";
+import { Button, Grid, Paper, Text } from "@mantine/core";
 import styles from '../styles/RedacoesContainer.module.css';
 import { useSession } from 'next-auth/react'
 
@@ -79,12 +77,18 @@ export default function RedacoesContainer() {
                 <div className={styles.containerCard}>
                     {redacoes.length === 0 ? (
                         <div>
-                            <Text>Vamos começar a trilha do sucesso? O GUIA vai te acompanhar.</Text>
+                            <Paper shadow="xs" p="xl" radius="sm" withBorder>
+                                <Text>Vamos começar a trilha do sucesso? O GUIA vai te acompanhar.</Text>
+                            </Paper>
                         </div>
                     ) : (
-                        redacoes.map((redacao) => (
-                            <Redacoes key={redacao.id} redacao={redacao} session={session}/>
-                        ))
+                        <Grid>
+                        {redacoes.map((redacao) => (
+                                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 4 }}>
+                                <Redacoes key={redacao.id} redacao={redacao} session={session}/>
+                                </Grid.Col>
+                        ))}
+                        </Grid>
                     )}
                 </div>
             )}

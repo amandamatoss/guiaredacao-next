@@ -28,11 +28,11 @@ import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Head from "next/head";
+import { IconHelpCircle } from "@tabler/icons-react";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -179,7 +179,7 @@ export default function Dashboard() {
           }}
           padding="md"
         >
-          <Modal opened={isOpen} onClose={close} centered size="100vw" >
+          <Modal opened={isOpen} onClose={close} centered fullScreen >
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
@@ -196,16 +196,14 @@ export default function Dashboard() {
                 <Menu.Dropdown p={10}>
                  
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', }} size={90}/>
+                    <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', border: '1px solid green'}} size={90}/>
+                    <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
+                    <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
                   </div>
-                 
-                  <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
-                  
-                  <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
                 
                   <Divider style={{ margin: "10px 0" }} />
                  
-                  <Text>Ajuda</Text>
+                  <Button variant="transparent" c="black" fullWidth leftSection={<IconHelpCircle size={20} />} align="center">Ajuda</Button>
                 
                   <Divider style={{ margin: "10px 0" }} />
                  
@@ -249,15 +247,15 @@ export default function Dashboard() {
             {selectedOption === "redacoes" && (
               <>
                 <div className={styles.container}>
-                  <div className={styles.containerRedacoes}>
-                    <Text fw={500} size="20px">
+                <Text fw={600} size="20px" mb={15}>
                       Minhas redações
                     </Text>
-                    <RedacoesContainer />
-                  </div>
-                  <Button maw={160} m={"auto"} onClick={open} mt={10} style={{ backgroundColor: 'green' }}>
+                <Button w="70%" m={"auto"} onClick={open} mt={10} style={{ backgroundColor: 'green' }}>
                     Nova redação
                   </Button>
+                  <div className={styles.containerRedacoes}>
+                    <RedacoesContainer />
+                  </div>
                 </div>
               </>
             )}

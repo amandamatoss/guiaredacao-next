@@ -17,7 +17,6 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import compromise from "compromise";
 import { useMediaQuery } from "@mantine/hooks";
 import { Accordion } from "@mantine/core";
 import { useSession } from "next-auth/react";
@@ -31,14 +30,12 @@ export default function Input({ isOpen, close }) {
 
   const { data: session } = useSession()
 
+  const [inputTitle, setInputTitle] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [selectedTema, setSelectedTema] = useState("");
   const [temas, setTemas] = useState([]);
   const [selectData, setSelectData] = useState([]);
-  const [characterCount, setCharacterCount] = useState(0);
-  const [sentenceCount, setSentenceCount] = useState(0);
-  const [paragraphCount, setParagraphCount] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
+  
 
   const fetchTemas = async () => {
     const temasCollection = collection(db, "temas");
@@ -59,28 +56,6 @@ export default function Input({ isOpen, close }) {
     setSelectData(formattedData);
   }, [temas]);
 
-  const analyzeText = (text) => {
-    const doc = compromise(text);
-
-    const characterCount = text.length;
-
-    const sentences = doc.sentences().out("array");
-
-    const paragraphCount = text.trim() === "" ? 0 : text.split("\n").length;
-
-    const words = text.trim() === "" ? [] : text.split(/\s+/);
-    const wordCount = words.length;
-
-    setCharacterCount(characterCount);
-    setSentenceCount(sentences.length);
-    setParagraphCount(paragraphCount);
-    setWordCount(wordCount);
-  };
-
-  useEffect(() => {
-    analyzeText(inputValue);
-  }, [inputValue]);
-
   const sendPost = async () => {
     if (inputValue.length < 300) {
       alert("A redação deve conter pelo menos 300 caracteres.");
@@ -89,6 +64,7 @@ export default function Input({ isOpen, close }) {
 
     await addDoc(collection(db, "redacoes"), {
       id: session.user.id,
+      title: inputTitle,
       text: inputValue,
       tema: selectedTema,
       timestamp: serverTimestamp(),
@@ -100,6 +76,7 @@ export default function Input({ isOpen, close }) {
 
     setInputValue("");
     setSelectedTema("");
+    setInputTitle("")
     close();
   };
 
@@ -178,6 +155,14 @@ export default function Input({ isOpen, close }) {
               <Text fw={800} mb={5}>
                 Sua redação
               </Text>
+              <Textarea value={inputTitle} onChange={(e) => setInputTitle(e.target.value)} variant="unstyled" autosize style={{ width: '100%', border: '1px solid black', borderRadius: '10px'}} placeholder="Digite seu título (opcional)"
+                pl={10}
+                spellCheck="false"
+                autoCapitalize="off"
+                autoCorrect="off"
+                autoComplete="off"
+                mb={5}
+                />
               <Textarea
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
