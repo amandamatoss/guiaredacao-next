@@ -1,42 +1,33 @@
 import React, { useState } from "react";
-import { Box, Button, Divider, Modal, Text } from "@mantine/core";
-import { IconDashboard, IconFileDescription, IconGraph } from "@tabler/icons-react";
-import { useMediaQuery } from '@mantine/hooks';
+import { Box, Button, Divider, Stack, Text } from "@mantine/core";
+import { IconDashboard, IconFileDescription, IconGraph, IconPencil } from "@tabler/icons-react";
+import { useHover } from "@mantine/hooks";
 
-export default function NavbarItens({ setSelectedOption, openModal }) {
-  const [selected, setSelected] = useState("inicio");
-  const isMobile = useMediaQuery("(max-width: 576px)");
+export default function NavbarItens({ setSelectedOption , selectedOption, openModal, sidebarCollapsed }) {
+  const { hovered, ref } = useHover();
 
   const handleOptionChange = (option) => {
     setSelectedOption(option);
-    setSelected(option);
   };
 
   return (
-    <Box
-      position="fixed"
-      display={isMobile ? "flex" : undefined}
-      justify={isMobile ? "space-between" : "space-between"}
-    >
+    <Stack mt={10} style={{ width: sidebarCollapsed ? "70px" : "230px", transition: "width 0.3s", width: '100%' }}>
       <Box
         onClick={() => handleOptionChange("inicio")}
         style={{
           cursor: "pointer",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: "center",
-          padding: "6px",
-          backgroundColor: selected === "inicio" ? "green" : "transparent",
-          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
-          marginBottom: isMobile ? 0 : 10,
-          borderRadius: '4px',
+          padding: "10px",
+          backgroundColor: selectedOption === "inicio" ? 'rgba(211, 211, 211, 0.4)' : "transparent",
         }}
       >
         <IconDashboard
           size={24}
-          style={{ marginRight: isMobile ? 0 : 8, color: selected === "inicio" ? "white" : "inherit" }}
+          style={{ color: selectedOption === "inicio" ? "green" : "inherit" }}
         />
-        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "inicio" ? "white" : "inherit" }}>Início</Text>}
+        {!sidebarCollapsed && (
+          <Text style={{ marginLeft: 10, color: selectedOption === "inicio" ? "green" : "inherit" }}>Início</Text>
+        )}
       </Box>
 
       <Box
@@ -44,20 +35,17 @@ export default function NavbarItens({ setSelectedOption, openModal }) {
         style={{
           cursor: "pointer",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: "center",
-          padding: "6px",
-          backgroundColor: selected === "redacoes" ? "green" : "transparent",
-          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
-          marginBottom: isMobile ? 0 : 10,
-          borderRadius: '4px'
+          padding: "10px",
+          backgroundColor: selectedOption === "redacoes" ? "rgba(211, 211, 211, 0.4)" : "transparent",
         }}
       >
         <IconFileDescription
           size={24}
-          style={{ marginRight: isMobile ? 0 : 8, color: selected === "redacoes" ? "white" : "inherit" }}
+          style={{ color: selectedOption === "redacoes" ? "green" : "inherit" }}
         />
-        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "redacoes" ? "white" : "inherit" }}>Redações</Text>}
+        {!sidebarCollapsed && (
+          <Text style={{ marginLeft: 10, color: selectedOption === "redacoes" ? "green" : "inherit" }}>Redações</Text>
+        )}
       </Box>
 
       <Box
@@ -65,25 +53,39 @@ export default function NavbarItens({ setSelectedOption, openModal }) {
         style={{
           cursor: "pointer",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row",
-          alignItems: "center",
-          padding: "6px",
-          backgroundColor: selected === "evolucao" ? "green" : "transparent",
-          width: isMobile ? "30%" : "auto", // Ajuste da largura para 30% no modo móvel
-          marginBottom: isMobile ? 0 : 10,
-          borderRadius: '4px'
+          padding: "10px",
+          backgroundColor: selectedOption === "evolucao" ? "rgba(211, 211, 211, 0.4)" : "transparent",
         }}
       >
         <IconGraph
           size={24}
-          style={{ marginRight: isMobile ? 0 : 8, color: selected === "evolucao" ? "white" : "inherit" }}
+          style={{ color: selectedOption === "evolucao" ? "green" : "inherit" }}
         />
-        {!isMobile && <Text style={{ marginLeft: 4, color: selected === "evolucao" ? "white" : "inherit" }}>Evolução</Text>}
+        {!sidebarCollapsed && (
+          <Text style={{ marginLeft: 10, color: selectedOption === "evolucao" ? "green" : "inherit" }}>Evolução</Text>
+        )}
       </Box>
 
-      <Divider my='sm'/>
-
-      <Button fullWidth onClick={openModal}style={{ backgroundColor: 'green', display: isMobile === true ? "none" : "block"}}>Redigir</Button>
-    </Box>
+      <Divider />
+      <Box style={{ padding: !sidebarCollapsed ? '0 15px 0 15px' : '0 5px 0 5px'}}>
+        <Button
+          size='lg'
+          radius={sidebarCollapsed ? 'md' : 'lg'}
+          ref={ref}
+          fullWidth
+          leftSection={<IconPencil size={24} />}
+          onClick={openModal}
+          style={{
+            background: !hovered ? 'rgba(144, 238, 144, 0.5)' : 'rgba(144, 238, 144, 1)',
+            color: 'green',
+            transition: '0.3s',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
+            padding: sidebarCollapsed ? '0 0 0 11px' : '0'
+          }}
+        >
+          Redigir
+        </Button>
+      </Box>
+    </Stack>
   );
 }
