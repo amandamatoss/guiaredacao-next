@@ -27,7 +27,6 @@ import {
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 import { getSession, signOut, useSession } from "next-auth/react";
-import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -55,60 +54,14 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
-  const { data: session } = useSession();
   console.log(session);
+
 
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [notasRedacoes, setNotasRedacoes] = useState([]);
   const [mediaNotasRedacoes, setMediaNotasRedacoes] = useState(0);
   const matches = useMediaQuery("(max-width: 576px)");
-
-  useEffect(() => {
-    if (session && session.user) {
-      const CreateUser = async () => {
-        const usersCollection = collection(db, "users");
-        const userQuery = query(
-          usersCollection,
-          where("email", "==", session.user.email)
-        );
-        const userDocs = await getDocs(userQuery);
-
-        if (userDocs.empty) {
-          const uniqueUserId = uuidv4(); // Gere um ID único usando uuidv4
-          const userDocumentData = {
-            id: uniqueUserId,
-            name: session.user.name,
-            email: session.user.email,
-            image: session.user.image,
-            isAdmin: false,
-            createdAt: serverTimestamp(),
-            plan: 'free',
-            // Outras informações do usuário, se necessário
-          };
-
-          try {
-            // Crie o documento do usuário
-            await addDoc(usersCollection, userDocumentData);
-            console.log("Documento do usuário criado com sucesso.");
-            const userDoc = userDocs.docs[0];
-            session.user.id = userDoc.data().id;
-            setIsLoading(false);
-          } catch (error) {
-            console.error("Erro ao criar o documento do usuário:", error);
-          }
-        } else {
-          // O documento do usuário já existe, defina o session.user.id com base no documento existente
-          const userDoc = userDocs.docs[0];
-          session.user.id = userDoc.data().id;
-          console.log("Documento do usuário já existe.");
-          setIsLoading(false);
-        }
-      };
-
-      CreateUser();
-    }
-  }, [session]);
 
   useEffect(() => {
     if (session) {
@@ -155,7 +108,6 @@ export default function Dashboard() {
       <Head>
         <title>Aluno | GUIA</title>
       </Head>
-      {isLoading ? (
         <Flex
           align="center"
           justify="center"
@@ -169,7 +121,6 @@ export default function Dashboard() {
         >
           <Loader size="md" />
         </Flex>
-      ) : null}
       <div>
         <AppShell
           header={{ height: 60 }}

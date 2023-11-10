@@ -12,7 +12,7 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
-const db = getFirestore()
-const storage = getStorage()
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)
+const db = getFirestore(app)
+const storage = getStorage(app)
 export { app, db, storage }
