@@ -65,6 +65,52 @@ export default function Dashboard() {
   const matches = useMediaQuery("(max-width: 576px)");
 
   useEffect(() => {
+    if (session && session.user) {
+      const CreateUser = async () => {
+        const usersCollection = collection(db, "users");
+        const userQuery = query(
+          usersCollection,
+          where("email", "==", session.user.email)
+        );
+        const userDocs = await getDocs(userQuery);
+
+        if (userDocs.empty) {
+          const uniqueUserId = uuidv4(); // Gere um ID único usando uuidv4
+          const userDocumentData = {
+            id: uniqueUserId,
+            name: session.user.name,
+            email: session.user.email,
+            image: session.user.image,
+            isAdmin: false,
+            createdAt: serverTimestamp(),
+            plan: 'free',
+            // Outras informações do usuário, se necessário
+          };
+
+          try {
+            // Crie o documento do usuário
+            await addDoc(usersCollection, userDocumentData);
+            console.log("Documento do usuário criado com sucesso.");
+            const userDoc = userDocs.docs[0];
+            session.user.id = userDoc.data().id;
+            setIsLoading(false);
+          } catch (error) {
+            console.error("Erro ao criar o documento do usuário:", error);
+          }
+        } else {
+          // O documento do usuário já existe, defina o session.user.id com base no documento existente
+          const userDoc = userDocs.docs[0];
+          session.user.id = userDoc.data().id;
+          console.log("Documento do usuário já existe.");
+          setIsLoading(false);
+        }
+      };
+
+      CreateUser();
+    }
+  }, [session]);
+
+  useEffect(() => {
     if (session) {
       const redacoesRef = collection(db, "redacoes");
       const q = query(redacoesRef, where("email", "==", session.user.email));

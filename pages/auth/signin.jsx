@@ -5,11 +5,9 @@ import { IconBrandGoogle, IconMail } from '@tabler/icons-react'
 import imgSignIn from '../../public/signin.svg'
 import Image from 'next/image'
 import { useMediaQuery } from '@mantine/hooks';
-import { useState } from 'react';
 export default function Login() {
 
   const matches = useMediaQuery("(max-width: 991px)");
-  const [emailValue, setEmailValue] = useState('')
 
   const handleGoogleSignIn = async () => {
     try {
@@ -33,7 +31,7 @@ export default function Login() {
           <Text fw={700} size='22px' style={{ textAlign: 'center'}}> Use suas informações para embarcar rumo ao sucesso! 🚀 </Text>
           <Button variant='default' size='lg' fullWidth leftSection={<IconBrandGoogle size={24} />} onClick={handleGoogleSignIn}>Entrar com o Google</Button>
           <Divider my="xs" label="Entrar com e-mail" labelPosition="center" />
-          <TextInput w='100%' size='lg' leftSection={<IconMail size={20} />} placeholder='Seu email' value={emailValue} onChange={(e) => setEmailValue(e.target.value)}/>
+          <TextInput w='100%' size='lg' leftSection={<IconMail size={20} />} placeholder='Seu email'/>
           <Button variant='gradient' size='lg' gradient={{ from: 'lime', to: 'green', deg: 90 }} fullWidth>ENTRAR</Button>
       </Grid.Col>
     </Grid>
