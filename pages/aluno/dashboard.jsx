@@ -27,6 +27,7 @@ import {
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 import { getSession, signOut, useSession } from "next-auth/react";
+import { v4 as uuidv4 } from "uuid";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -54,8 +55,8 @@ export async function getServerSideProps(context) {
 
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
+  const { data: session } = useSession();
   console.log(session);
-
 
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -108,6 +109,7 @@ export default function Dashboard() {
       <Head>
         <title>Aluno | GUIA</title>
       </Head>
+      {isLoading ? (
         <Flex
           align="center"
           justify="center"
@@ -121,6 +123,7 @@ export default function Dashboard() {
         >
           <Loader size="md" />
         </Flex>
+      ) : null}
       <div>
         <AppShell
           header={{ height: 60 }}
