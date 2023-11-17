@@ -2,7 +2,7 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { SessionProvider } from 'next-auth/react'
 import { RecoilRoot } from "recoil";
-import '@mantine/tiptap/styles.css';
+import '@mantine/dates/styles.css';
 import '../styles/global.css'
 
 export default function App({

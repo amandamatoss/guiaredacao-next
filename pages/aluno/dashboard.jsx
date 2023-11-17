@@ -35,6 +35,7 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 import Head from "next/head";
 import { IconHelpCircle, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconPencil } from "@tabler/icons-react";
 import NavbarMobile from "../../components/NavbarMobile";
+import Agendamento from "../../components/Agendamento";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -63,7 +64,7 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [notasRedacoes, setNotasRedacoes] = useState([]);
   const [mediaNotasRedacoes, setMediaNotasRedacoes] = useState(0);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
   const { hovered, ref } = useHover()
   const matches = useMediaQuery("(max-width: 576px)");
 
@@ -199,7 +200,7 @@ export default function Dashboard() {
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
-                  <Avatar src={session?.user.image} style={{ cursor: 'pointer' }} />
+                  <Avatar src={session?.user.image} style={{ cursor: 'pointer', marginRight: '15px' }} />
                 </Menu.Target>
                 <Menu.Dropdown p={10}>
 
@@ -285,6 +286,9 @@ export default function Dashboard() {
                   </ResponsiveContainer>
                 </div>
               </Flex>
+            )}
+            {selectedOption === "agendamento" && (
+                <Agendamento />
             )}
 
           </AppShell.Main>

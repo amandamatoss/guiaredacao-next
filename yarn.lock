@@ -504,7 +504,7 @@
   resolved "https://registry.npmjs.org/@mantine/carousel/-/carousel-7.1.7.tgz"
   integrity sha512-ey7lEfOLsByd772O6WuguuW7hlal+YBUy27XQcJRVdZif/aiOKDEpUG2m4qb7wrANZiGXOlA4veTrxeR38fHng==
 
-"@mantine/core@^7.1.1", "@mantine/core@7.1.2", "@mantine/core@7.1.7":
+"@mantine/core@^7.1.1", "@mantine/core@7.1.2", "@mantine/core@7.1.7", "@mantine/core@7.2.2":
   version "7.1.2"
   resolved "https://registry.npmjs.org/@mantine/core/-/core-7.1.2.tgz"
   integrity sha512-EZg82V/+uA2bM981mEUOUGfqKIRsMfvxLdAPQpurhtqsnq4yBj1xjC3KzX/Eas9QhhHuR+4DJJyGTuO9aOK6nQ==
@@ -516,7 +516,14 @@
     react-textarea-autosize "8.5.3"
     type-fest "^3.13.1"
 
-"@mantine/hooks@^7.1.1", "@mantine/hooks@7.1.2", "@mantine/hooks@7.1.7":
+"@mantine/dates@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.npmjs.org/@mantine/dates/-/dates-7.2.2.tgz"
+  integrity sha512-MgUy2qODhXEkdK5OQE3talThrbXKfBK6V0AJ8iwPcrxMoQ77u4aMzTv4+47bEjQeUFyjrT8u916VFd82mn59SA==
+  dependencies:
+    clsx "2.0.0"
+
+"@mantine/hooks@^7.1.1", "@mantine/hooks@7.1.2", "@mantine/hooks@7.1.7", "@mantine/hooks@7.2.2":
   version "7.1.2"
   resolved "https://registry.npmjs.org/@mantine/hooks/-/hooks-7.1.2.tgz"
   integrity sha512-2sqfBKse/aJq93zEpIn4OY+jRACmDIWBixfBgobRfltDyeL8G+3223LSAaeT6ZD8+h2YBJVmbCD5QY7bx2l11Q==
@@ -1367,6 +1374,11 @@ dash-get@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/dash-get/-/dash-get-1.0.2.tgz"
   integrity sha512-4FbVrHDwfOASx7uQVxeiCTo7ggSdYZbqs8lH+WU6ViypPlDbe9y6IP5VVUDQBv9DcnyaiPT5XT0UWHgJ64zLeQ==
+
+dayjs@^1.10.5:
+  version "1.11.10"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.10.tgz"
+  integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==
 
 debug@^2.6.9:
   version "2.6.9"

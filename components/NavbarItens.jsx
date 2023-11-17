@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Box, Button, Divider, Stack, Text } from "@mantine/core";
-import { IconDashboard, IconFileDescription, IconGraph, IconPencil } from "@tabler/icons-react";
+import { Box, Divider, Stack, Text } from "@mantine/core";
+import { IconCalendarEvent, IconChartBar, IconDashboard, IconFileDescription, IconPencil } from "@tabler/icons-react";
 import { useHover } from "@mantine/hooks";
 
 export default function NavbarItens({ setSelectedOption , selectedOption, openModal, sidebarCollapsed }) {
@@ -57,7 +56,7 @@ export default function NavbarItens({ setSelectedOption , selectedOption, openMo
           backgroundColor: selectedOption === "evolucao" ? "rgba(211, 211, 211, 0.4)" : "transparent",
         }}
       >
-        <IconGraph
+        <IconChartBar
           size={24}
           style={{ color: selectedOption === "evolucao" ? "green" : "inherit" }}
         />
@@ -66,8 +65,26 @@ export default function NavbarItens({ setSelectedOption , selectedOption, openMo
         )}
       </Box>
 
+      <Box
+        onClick={() => handleOptionChange("agendamento")}
+        style={{
+          cursor: "pointer",
+          display: "flex",
+          padding: "10px",
+          backgroundColor: selectedOption === "agendamento" ? "rgba(211, 211, 211, 0.4)" : "transparent",
+        }}
+      >
+        <IconCalendarEvent
+          size={24}
+          style={{ color: selectedOption === "agendamento" ? "green" : "inherit" }}
+        />
+        {!sidebarCollapsed && (
+          <Text style={{ marginLeft: 10, color: selectedOption === "agendamento" ? "green" : "inherit" }}>Agendamento</Text>
+        )}
+      </Box>
+
       <Divider />
-      <Box style={{ padding: !sidebarCollapsed ? '0 15px 0 15px' : '0 5px 0 5px'}}>
+      {/* <Box style={{ padding: !sidebarCollapsed ? '0 15px 0 15px' : '0 5px 0 5px'}}>
         <Button
           size='lg'
           radius={sidebarCollapsed ? 'md' : 'lg'}
@@ -85,7 +102,7 @@ export default function NavbarItens({ setSelectedOption , selectedOption, openMo
         >
           Redigir
         </Button>
-      </Box>
+      </Box> */}
     </Stack>
   );
 }

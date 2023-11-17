@@ -25,7 +25,7 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
     return (
         <Container size='xl'>
             <Grid>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4 }}>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 8 }}>
                     <Paper withBorder h={'100%'} p={15} radius="md">
                     <Text fw={800}>Seja bem-vindo, {session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)} 😁</Text>
                         {notasRedacoes.length === 0 ? (
@@ -35,7 +35,7 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                         )}
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 8 }}>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4 }} style={{ height: '200px'}}>
                     <Carousel
                         withIndicators
                         loop
@@ -43,21 +43,21 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                             border: '1px solid transparent',
                             borderRadius: '10px',
                             overflow: 'hidden',
-                            maxHeight: '200px'
+                            height: '100%',
+                            flex: 1,
                         }}
                     >
                         {temas.map((tema, index) => (
                             <Carousel.Slide key={index}>
-                                <div>
                                     <Image src={tema.image} style={{
                                         filter: 'brightness(45%)',
-                                        height: '200px'
+                                        height: '100%',
+                                        width: '100%',
                                     }} />
                                     <div style={{ position: 'absolute', top: '10px', left: '10px' }}>
                                         <Text size="md" c="gray">Temas Disponíveis</Text>
                                         <Text size="sm" c="white">{tema.nome}</Text>
                                     </div>
-                                </div>
                             </Carousel.Slide>
                         ))}
                     </Carousel>
@@ -67,7 +67,6 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                 <Grid.Col span={{ base: 12, xs: 12, sm: 4, md: 4 }}>
                     <Paper
                         withBorder
-                        h={'100%'}
                         p={15}
                         radius="md"
                         style={{
@@ -89,8 +88,8 @@ export default function Inicio({ session, mediaNotasRedacoes, notasRedacoes }) {
                         />
                     </Paper>
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 3 }}>{child}</Grid.Col>
-                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 6 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 4 }}>{child}</Grid.Col>
+                <Grid.Col span={{ base: 12, xs: 12, sm: 12, md: 8 }}>{child}</Grid.Col>
             </Grid>
         </Container>
     )
