@@ -168,10 +168,10 @@ export default function Dashboard() {
           align="center"
           justify="center"
           style={{
-            minWidth: "100vw",
-            minHeight: "100vh",
+            width: '100vw',
+            height: '100vh',
             position: "absolute",
-            zIndex: "1000",
+            zIndex: "10000",
             backgroundColor: "white",
           }}
         >

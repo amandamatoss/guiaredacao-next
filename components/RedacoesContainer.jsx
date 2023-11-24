@@ -71,7 +71,7 @@ export default function RedacoesContainer() {
         <>
             {isLoading ? ( 
                 <div className={styles.loading}>
-                    <Text>Loading...</Text> {/* Mudar depois */}
+                    <Text>Carregando...</Text> {/* Mudar depois */}
                 </div>
             ) : (
                 <div className={styles.containerCard}>
