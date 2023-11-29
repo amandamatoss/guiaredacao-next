@@ -11,7 +11,7 @@ import {
 import Input from "../../components/Input";
 import RedacoesContainer from "../../components/RedacoesContainer";
 import NavbarItens from "../../components/NavbarItens";
-import { useDisclosure, useHover, useMediaQuery } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   AppShell,
   Button,
@@ -23,19 +23,16 @@ import {
   Avatar,
   Menu,
   Divider,
-  UnstyledButton,
 } from "@mantine/core";
 import Logo from "../../assets/imgs/Logo.png";
 import styles from "../../styles/Dashboard.module.css";
 import { getSession, signOut, useSession } from "next-auth/react";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Inicio from "../../components/Inicio";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import Head from "next/head";
-import { IconHelpCircle, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconPencil } from "@tabler/icons-react";
-import NavbarMobile from "../../components/NavbarMobile";
-import Agendamento from "../../components/Agendamento";
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
@@ -59,18 +56,13 @@ export async function getServerSideProps(context) {
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("inicio");
   const { data: session } = useSession();
+  console.log(session);
 
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isLoading, setIsLoading] = useState(true);
   const [notasRedacoes, setNotasRedacoes] = useState([]);
   const [mediaNotasRedacoes, setMediaNotasRedacoes] = useState(0);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
-  const { hovered, ref } = useHover()
   const matches = useMediaQuery("(max-width: 576px)");
-
-  const toggleSidebar = () => {
-    setSidebarCollapsed(!sidebarCollapsed);
-  };
 
   useEffect(() => {
     if (session && session.user) {
@@ -168,10 +160,10 @@ export default function Dashboard() {
           align="center"
           justify="center"
           style={{
-            width: '100vw',
-            height: '100vh',
+            minWidth: "100vw",
+            minHeight: "100vh",
             position: "absolute",
-            zIndex: "10000",
+            zIndex: "1000",
             backgroundColor: "white",
           }}
         >
@@ -182,7 +174,7 @@ export default function Dashboard() {
         <AppShell
           header={{ height: 60 }}
           navbar={{
-            width: sidebarCollapsed ? '70px' : '230px',
+            width: 230,
             breakpoint: 576,
           }}
           padding="md"
@@ -191,50 +183,32 @@ export default function Dashboard() {
             <Input isOpen={isOpen} close={close} />
           </Modal>
 
-          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0px 0 10px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)' }}>
+          <AppShell.Header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 25px 0 25px', boxShadow: '2px 1px 4px 0px rgba(0,0,0,0.2)'}}>
 
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {!matches ? <UnstyledButton onClick={toggleSidebar}>{sidebarCollapsed ? <IconLayoutSidebarLeftExpand size={30} /> : <IconLayoutSidebarLeftCollapse size={30} />}</UnstyledButton> : null }
               <Image src={Logo} width={100} height={100} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Menu position="bottom-end" withArrow>
                 <Menu.Target>
-                  <Avatar src={session?.user.image} style={{ cursor: 'pointer', marginRight: '15px' }} />
+                  <Avatar src={session?.user.image} style={{ cursor: 'pointer'}} />
                 </Menu.Target>
                 <Menu.Dropdown p={10}>
-
-<<<<<<< HEAD
-            <AppShell.Main>
-              {selectedOption === "inicio" && <h2>Bem vindo, {currentUser.name}</h2>}
-              {selectedOption === "redacoes" && (
-                <>
-                  <div className={styles.container}>
-                    <Text fw={600} size="30px">
-                      Minhas redações
-                    </Text>
-                    <div className={styles.containerRedacoes}>
-                      <RedacoesContainer />
-                    </div>
-                  <Button variant="filled" maw={160} m={"auto"} onClick={open} color="#144003">Nova redação</Button>;
-
-                    {/* <Button maw={160} m={"auto"} onClick={open}>
-                      Nova redação
-                    </Button> */}
-=======
+                 
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', border: '1px solid green' }} size={90} />
-                    <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
-                    <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
+                    <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', }} size={90}/>
                   </div>
-
+                 
+                  <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
+                  
+                  <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
+                
                   <Divider style={{ margin: "10px 0" }} />
-
-                  <Button variant="transparent" c="black" fullWidth leftSection={<IconHelpCircle size={20} />} align="center">Ajuda</Button>
-
+                 
+                  <Text>Ajuda</Text>
+                
                   <Divider style={{ margin: "10px 0" }} />
-
+                 
                   <Button onClick={signOut} variant='transparent' style={{ color: "black", margin: "0 auto", display: "block", border: '1px solid gray' }}>
                     SAIR
                   </Button>
@@ -244,12 +218,25 @@ export default function Dashboard() {
           </AppShell.Header>
 
           {!matches && (
-            <AppShell.Navbar zIndex={1} style={{ width: sidebarCollapsed ? "50px" : "230px", transition: "width 0.3s" }}>
-              <NavbarItens setSelectedOption={setSelectedOption} openModal={open} sidebarCollapsed={sidebarCollapsed} toggleSidebar={toggleSidebar} selectedOption={selectedOption}/>
+            <AppShell.Navbar p="md" zIndex={1}>
+              <Flex>
+                <NavbarItens setSelectedOption={setSelectedOption} openModal={open} />
+              </Flex>
             </AppShell.Navbar>
           )}
           {matches && (
-            <NavbarMobile setSelectedOption={setSelectedOption} selectedOption={selectedOption}/>
+            <Flex
+              style={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                zIndex: 1000,
+                backgroundColor: "#fff",
+              }}
+            >
+              <NavbarItens setSelectedOption={setSelectedOption} openModal={open} />
+            </Flex>
           )}
 
 
@@ -262,24 +249,10 @@ export default function Dashboard() {
             {selectedOption === "redacoes" && (
               <>
                 <div className={styles.container}>
-                  <Text fw={600} size="20px" mb={15}>
-                    Minhas redações
-                  </Text>
-                  <Button
-                    size='md'
-                    radius='md'
-                    ref={ref}
-                    w='70%'
-                    m='auto'
-                    leftSection={<IconPencil size={24} />}
-                    onClick={open}
-                    style={{
-                      background: !hovered ? 'rgba(144, 238, 144, 0.5)' : 'rgba(144, 238, 144, 1)',
-                      color: 'green',
-                      transition: '0.3s',
-                      boxShadow: '0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
-                    }}
-                  >
+                <Text fw={600} size="20px" mb={15}>
+                      Minhas redações
+                    </Text>
+                <Button w="70%" m={"auto"} onClick={open} mt={10} style={{ backgroundColor: 'green' }}>
                     Nova redação
                   </Button>
                   <div className={styles.containerRedacoes}>
@@ -305,9 +278,6 @@ export default function Dashboard() {
                   </ResponsiveContainer>
                 </div>
               </Flex>
-            )}
-            {selectedOption === "agendamento" && (
-                <Agendamento />
             )}
 
           </AppShell.Main>

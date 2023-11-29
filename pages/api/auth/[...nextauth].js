@@ -8,17 +8,16 @@ export default NextAuth({
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       }),
-      // ...add more providers here
     ],
-  
     pages: {
-      signIn: "/auth/signin",
+      signIn: '/auth/signin'
     },
-    
+    session: {
+      jwt: true,
+    },
     callbacks: {
-      async session({ session, token }) {
-        session.user.uid = token.sub;
-        return session;
-      },
+      session: ({ session }) => ({
+        ...session,
+      }),
     },
   });

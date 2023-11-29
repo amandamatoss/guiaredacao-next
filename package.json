@@ -1,6 +1,6 @@
 {
-  "name": "mantine-minimal-next-template",
-  "version": "0.1.0",
+  "name": "guia-redacao",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,21 +9,33 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/carousel": "^7.1.7",
     "@mantine/core": "^7.1.1",
+    "@mantine/dates": "^7.2.2",
     "@mantine/hooks": "^7.1.1",
     "@mantine/tiptap": "^7.1.2",
     "@tabler/icons-react": "^2.38.0",
     "@tiptap/pm": "^2.1.11",
     "@tiptap/react": "^2.1.11",
     "@tiptap/starter-kit": "^2.1.11",
+    "chart.js": "^4.4.0",
     "compromise": "^14.10.0",
+    "embla-carousel-autoplay": "^8.0.0-rc14",
     "firebase": "^10.4.0",
+<<<<<<< HEAD
     "next": "^13.5.4",
     "next-auth": "^4.24.3",
+=======
+    "next": "^13.5.6",
+    "next-auth": "^4.23.2",
+>>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
     "react": "18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-simple-typewriter": "^5.0.1",
-    "recoil": "^0.7.7"
+    "recharts": "^2.9.0",
+    "recoil": "^0.7.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react-dom": "18.2.4",
