@@ -30,11 +30,11 @@ export default function PrimaryContainer() {
             A{" "}
             <Text
               span
-              c="blue"
+              c="green"
               inherit
               fw={900}
               variant="gradient"
-              gradient={{ from: "blue", to: "cyan", deg: 90 }}
+              gradient={{ from: '#144003', to: 'rgba(137, 176, 152, 1)', deg: 90 }}
             >
               ferramenta ideal
             </Text>{" "}
@@ -65,7 +65,7 @@ export default function PrimaryContainer() {
               inherit
               fw={800}
               variant="gradient"
-              gradient={{ from: "blue", to: "cyan", deg: 90 }}
+              gradient={{ from: '#144003', to: 'rgba(43, 89, 46, 1)', deg: 90 }}
             >
               ferramenta ideal
             </Text>{" "}
@@ -82,13 +82,13 @@ export default function PrimaryContainer() {
         <div className={styles.buttons}>
           <Button
             variant="gradient"
-            gradient={{ from: "blue", to: "cyan", deg: 90 }}
+            gradient={{ from: 'rgba(6, 33, 3, 1)', to: 'rgba(43, 89, 46, 1)', deg: 94 }}
             size="md"
             rightSection={<IconArrowRight size={18} />}
           >
             Começar Agora
           </Button>
-          <Button size="md" variant="transparent">
+          <Button size="md" variant="transparent" color="#144003">
             Já faço parte
           </Button>
         </div>

@@ -99,9 +99,11 @@ export default function Dashboard() {
                     <div className={styles.containerRedacoes}>
                       <RedacoesContainer />
                     </div>
-                    <Button maw={160} m={"auto"} onClick={open}>
+                  <Button variant="filled" maw={160} m={"auto"} onClick={open} color="#144003">Nova redação</Button>;
+
+                    {/* <Button maw={160} m={"auto"} onClick={open}>
                       Nova redação
-                    </Button>
+                    </Button> */}
                   </div>
                 </>
               )}

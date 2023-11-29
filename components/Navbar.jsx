@@ -125,19 +125,20 @@ import {
             </Group>
   
             <Group visibleFrom="sm">
-              <Button size='md' onClick={signIn}>Entrar</Button>
+              <Button size='md'color='#144003' onClick={signIn}>Entrar</Button>
             </Group>
   
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
           </Group>
         </header>
   
+        <Image src={Logo} width="80" height="80" alt="Logo" /> 
+
         <Drawer
           opened={drawerOpened}
           onClose={closeDrawer}
           size="100%"
           padding="md"
-          title="Logo Guia" // LEMBRAR DE TROCAR
           hiddenFrom="sm"
           zIndex={1000000}
         >
@@ -161,7 +162,7 @@ import {
             <Divider my="sm" />
   
             <Group justify="center" grow pb="xl" px="md">
-              <Button>Entrar</Button>
+              <Button color='#144003'>Entrar</Button>
             </Group>
           </ScrollArea>
         </Drawer>

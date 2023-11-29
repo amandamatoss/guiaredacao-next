@@ -42,11 +42,11 @@ export default function Redacoes({ redacao }) {
       </Group>
 
       {redacao.status === false ? (
-        <Badge color="gray" variant="light">
+        <Badge color="rgba(31, 66, 19, 1)" variant="light">
           Não avaliada
         </Badge>
       ) : (
-        <Badge color="green" variant="light">
+        <Badge color="rgba(31, 66, 19, 1)" variant="light">
           Avaliada
         </Badge>
       )}
@@ -65,7 +65,7 @@ export default function Redacoes({ redacao }) {
       ) : (
         <Button
           variant="light"
-          color="blue"
+          color="#144003"
           fullWidth
           mt="md"
           radius="md"
