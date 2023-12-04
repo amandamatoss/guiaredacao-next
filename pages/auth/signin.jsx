@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
-import { userState } from '../../atom/userAtom';
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-=======
 import { signIn } from 'next-auth/react'; // Importe useSession
 import Head from 'next/head';
 import { Button, Divider, Grid, Text, TextInput } from '@mantine/core'
@@ -15,7 +6,6 @@ import imgSignIn from '../../public/signin.svg'
 import Image from 'next/image'
 import { useMediaQuery } from '@mantine/hooks';
 export default function Login() {
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
 
   const matches = useMediaQuery("(max-width: 991px)");
 

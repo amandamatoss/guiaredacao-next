@@ -204,29 +204,10 @@ export default function Dashboard() {
                 </Menu.Target>
                 <Menu.Dropdown p={10}>
 
-<<<<<<< HEAD
-            <AppShell.Main>
-              {selectedOption === "inicio" && <h2>Bem vindo, {currentUser.name}</h2>}
-              {selectedOption === "redacoes" && (
-                <>
-                  <div className={styles.container}>
-                    <Text fw={600} size="30px">
-                      Minhas redações
-                    </Text>
-                    <div className={styles.containerRedacoes}>
-                      <RedacoesContainer />
-                    </div>
-                  <Button variant="filled" maw={160} m={"auto"} onClick={open} color="#144003">Nova redação</Button>;
-
-                    {/* <Button maw={160} m={"auto"} onClick={open}>
-                      Nova redação
-                    </Button> */}
-=======
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Avatar src={session?.user.image} style={{ cursor: "pointer", marginBottom: '10px', border: '1px solid green' }} size={90} />
                     <Text fw={600} size="22px" style={{ textAlign: 'center', marginTop: '5px' }}>{session?.user.name.trim().split(" ")[0].charAt(0).toUpperCase() + session?.user.name.trim().split(" ")[0].slice(1)}</Text>
                     <Text style={{ textAlign: 'center', marginTop: '1px' }}>{session?.user.email}</Text>
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
                   </div>
 
                   <Divider style={{ margin: "10px 0" }} />

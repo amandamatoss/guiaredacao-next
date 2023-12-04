@@ -22,13 +22,8 @@
     "compromise": "^14.10.0",
     "embla-carousel-autoplay": "^8.0.0-rc14",
     "firebase": "^10.4.0",
-<<<<<<< HEAD
-    "next": "^13.5.4",
-    "next-auth": "^4.24.3",
-=======
     "next": "^13.5.6",
     "next-auth": "^4.23.2",
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",

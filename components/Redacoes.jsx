@@ -109,37 +109,12 @@ export default function Redacoes({ redacao }) {
           </Badge>
         )}
 
-<<<<<<< HEAD
-      <Group mt="md" mb="xs">
-        <Text fw={400}>{redacao.timestamp ? redacao.timestamp.toDate().toLocaleDateString() : "..."}</Text>
-      </Group>
-
-      {redacao.status === false ? (
-        <Badge color="rgba(31, 66, 19, 1)" variant="light">
-          Não avaliada
-        </Badge>
-      ) : (
-        <Badge color="rgba(31, 66, 19, 1)" variant="light">
-          Avaliada
-        </Badge>
-      )}
-
-      <Text size="sm" c="dimmed" lineClamp={3} my={5}>
-        {redacao.text}
-      </Text>
-
-      {/* Renderize a animação de carregamento condicionalmente */}
-      {isLoading ? (
-        <Flex
-        justify="center" // Centraliza o conteúdo verticalmente e horizontalmente
-=======
         <Text
           lineClamp={3}
           my={5}
           fw={400}
           size="18px"
           style={{ wordBreak: "break-word" }}
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
         >
           {redacao.text}
         </Text>
@@ -167,18 +142,6 @@ export default function Redacoes({ redacao }) {
           <Loader size="sm" />
         </Flex>
       ) : (
-<<<<<<< HEAD
-        <Button
-          variant="light"
-          color="#144003"
-          fullWidth
-          mt="md"
-          radius="md"
-          onClick={getDocumentId}
-        >
-          Mais detalhes
-        </Button>
-=======
         <>
           <Button
             variant="transparent"
@@ -227,7 +190,6 @@ export default function Redacoes({ redacao }) {
             </Box>
           </Modal>
         </>
->>>>>>> 8b6781fe0a38a8763b57cb3b6cdfb971f9746ebc
       )}
     </Card>
 
