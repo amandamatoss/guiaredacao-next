@@ -1,76 +1,52 @@
-/* Info Box */
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 25px;
-  grid-row-gap: 0px;
-  margin: 0 20px 0px 20px;
-  background-color: #f3fcf2;
-  padding: 20px;
-  border-radius: 15px;
-}
-
-.containerBox {
+.inner {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+  justify-content: space-between;
+  padding-top: calc(var(--mantine-spacing-xl) * 4);
+  padding-bottom: calc(var(--mantine-spacing-xl) * 4);
 }
 
-.buttons {
-  display: flex;
-  gap: 5px;
-}
+.content {
+  max-width: rem(480px);
+  margin-right: calc(var(--mantine-spacing-xl) * 3);
 
-/* Images */
-
-.containerImages {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 75px;
-  grid-row-gap: 0px;
-  max-height: 80vh;
-}
-
-.img1 {
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.img2 {
-  display: flex;
-  overflow: hidden;
-  flex-direction: column;
-}
-
-.img2 div {
-  display: flex;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.img2 div img {
-  max-height: 100%;
-}
-
-/* Ajeitar as imagens certo dps */
-
-/* Responsividade */
-
-@media (max-width: 1200px) {
-
-  .container {
-    grid-template-columns: 1fr;
+  @media (max-width: $mantine-breakpoint-md) {
+    max-width: 100%;
+    margin-right: 0;
   }
+}
 
-  .containerImages {
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+  font-size: rem(44px);
+  line-height: 1.2;
+  font-weight: 900;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: rem(28px);
+  }
+}
+
+.control {
+  @media (max-width: $mantine-breakpoint-xs) {
+    flex: 1;
+  }
+}
+
+.image {
+  width: rem(376px);
+  height: rem(356px);
+
+  @media (max-width: $mantine-breakpoint-md) {
     display: none;
   }
+}
 
-
-
+.highlight {
+  position: relative;
+  background-color: #14400352;
+  border-radius: var(--mantine-radius-sm);
+  padding: rem(4px) rem(12px);
 }

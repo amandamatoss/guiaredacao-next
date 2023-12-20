@@ -101,14 +101,14 @@ import {
   
             <Group h="100%" gap={0} visibleFrom="sm">
               <a href="#" className={classes.link}>
-                Home
+                Inicio
               </a>
               <HoverCard width={600} position="bottom" radius="md" shadow="md" withinPortal>
                 <HoverCard.Target>
                   <a href="#" className={classes.link}>
                     <Center inline>
                       <Box component="span" mr={5}>
-                        Features
+                        Vantagens
                       </Box>
                     </Center>
                   </a>
@@ -131,8 +131,6 @@ import {
             <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="sm" />
           </Group>
         </header>
-  
-        <Image src={Logo} width="80" height="80" alt="Logo" /> 
 
         <Drawer
           opened={drawerOpened}
@@ -146,11 +144,11 @@ import {
             <Divider my="sm" />
   
             <a href="#" className={classes.link}>
-              Home
+              Inicio
             </a>
             <Collapse in={linksOpened}>{links}</Collapse>
             <a href="#" className={classes.link}>
-              Feature
+              Vantagens
             </a>
             <a href="#" className={classes.link}>
               Planos

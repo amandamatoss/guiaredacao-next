@@ -1,120 +1,50 @@
-import {
-  Container,
-  Text,
-  Center,
-  SimpleGrid,
-  Box,
-  Grid,
-  Title,
-  Group,
-  Button,
-} from "@mantine/core";
-import styles from "../styles/PrimaryContainer.module.css";
-import { IconArrowRight } from "@tabler/icons-react";
-import Image from "next/image";
+import { Container, Title, Button, Group, Text, List, ThemeIcon, rem } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
+import classes from '../styles/PrimaryContainer.module.css';
+import Landing from '../public/landing.svg'
+import Image from 'next/image'
 
-export default function PrimaryContainer() {
+export default function HeroBullets() {
   return (
-    <div className={styles.container}>
-      <div className={styles.containerBox}>
-
-        {/* Mobile */}
-
-        <Box hiddenFrom="sm">
-          <Title
-            order={3}
-            fw={900}
-            size={32}
-            style={{ width: "20ch" }}
-          >
-            A{" "}
-            <Text
-              span
-              c="green"
-              inherit
-              fw={900}
-              variant="gradient"
-              gradient={{ from: '#144003', to: 'rgba(137, 176, 152, 1)', deg: 90 }}
-            >
-              ferramenta ideal
-            </Text>{" "}
-            <br />
-            para aprimorar suas habilidades em redação!
+    <Container size="md">
+      <div className={classes.inner}>
+        <div className={classes.content}>
+          <Title className={classes.title}>
+            A <span className={classes.highlight}>Plataforma</span> que <br /> vai otimizar seus estudos sobre redação!
           </Title>
-
-          <Text style={{ width: "40ch" }}>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
+          <Text c="dimmed" mt="md">
+            Mudar subtitulo  Mudar subtitulo  Mudar subtitulo  Mudar subtitulo  Mudar subtitulo Mudar subtitulo Mudar subtitulo Mudar subtitulo Mudar subtitulo Mudar subtitulo Mudar subtitulo
           </Text>
-        </Box>
 
-        {/* Tablet / Desktop */}
-
-        <Box visibleFrom="sm">
-          <Title
-            order={3}
-            fw={800}
-            size={48}
-            style={{ width: "20ch" }}
+          <List
+            mt={30}
+            spacing="sm"
+            size="sm"
+            icon={
+              <ThemeIcon size={20} radius="xl" color='#144003'>
+                <IconCheck style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+              </ThemeIcon>
+            }
           >
-            A{" "}
-            <Text
-              span
-              c="blue"
-              inherit
-              fw={800}
-              variant="gradient"
-              gradient={{ from: '#144003', to: 'rgba(43, 89, 46, 1)', deg: 90 }}
-            >
-              ferramenta ideal
-            </Text>{" "}
-            <br />
-            para aprimorar suas habilidades em redação!
-          </Title>
+            <List.Item>
+              <b>Sem burocracia</b> – Assim que criar sua conta já pode começar a usar a plataforma
+            </List.Item>
+            <List.Item>
+              <b>Rapidez e eficiência</b> – Sabemos que você tem pressa, por isso nos adiantamos
+            </List.Item>
+          </List>
 
-        </Box>
-        <Text style={{ width: "60ch" }}>
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
-          </Text>
-        <div className={styles.buttons}>
-          <Button
-            variant="gradient"
-            gradient={{ from: 'rgba(6, 33, 3, 1)', to: 'rgba(43, 89, 46, 1)', deg: 94 }}
-            size="md"
-            rightSection={<IconArrowRight size={18} />}
-          >
-            Começar Agora
-          </Button>
-          <Button size="md" variant="transparent" color="#144003">
-            Já faço parte
-          </Button>
+          <Group mt={30}>
+            <Button radius="xl" size="md" className={classes.control} color='#144003'>
+              Comece agora
+            </Button>
+            <Button variant="default" radius="xl" size="md" className={classes.control}>
+              Saber mais
+            </Button>
+          </Group>
         </div>
+        <Image src={Landing} className={classes.image} />
       </div>
-      <div className={styles.containerImages}>
-        <div className={styles.img1}>
-          <img
-            src="https://img.freepik.com/fotos-gratis/uma-sala-de-conferencias-com-uma-mesa-e-uma-parede-de-janelas-que-diz-o-escritorio_1340-37385.jpg?w=1380&t=st=1696627566~exp=1696628166~hmac=d236faafa4a3144b28a646c3a866130e4be4e900e61965ca3de00990b492e1c7"
-            id="img1"
-          />
-        </div>
-        <div className={styles.img2}>
-          <div>
-            <img
-              src="https://img.freepik.com/fotos-gratis/interior-de-espaco-de-escritorio-moderno_158595-5206.jpg?w=1380&t=st=1696628066~exp=1696628666~hmac=b9c41758bfc14b6ee78dc21da495b268f00ced37bb8d03bef2bec1f6eeb421ad"
-              alt=""
-            />
-          </div>
-          <div>
-            <img
-              src="https://img.freepik.com/fotos-gratis/restaurante-obscura-com-piso-de-madeira_1203-1440.jpg?w=1380&t=st=1696628089~exp=1696628689~hmac=ccaef8d874d9cbc95859e7bfebefa2488f072973e8ddd6fe7fc82ed27a015a9c"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+    </Container>
   );
 }

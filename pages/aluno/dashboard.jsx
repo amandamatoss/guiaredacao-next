@@ -73,8 +73,8 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    if (session && session.user) {
-      const CreateUser = async () => {
+    const CreateUser = async () => {
+      if (session && session.user) {
         const usersCollection = collection(db, "users");
         const userQuery = query(
           usersCollection,
@@ -99,23 +99,19 @@ export default function Dashboard() {
             // Crie o documento do usuário
             await addDoc(usersCollection, userDocumentData);
             console.log("Documento do usuário criado com sucesso.");
-            const userDoc = userDocs.docs[0];
-            session.user.id = userDoc.data().id;
-            setIsLoading(false);
+            setIsLoading(false)
+            // Remova a linha que define o ID do usuário na variável de estado
           } catch (error) {
             console.error("Erro ao criar o documento do usuário:", error);
           }
-        } else {
-          // O documento do usuário já existe, defina o session.user.id com base no documento existente
-          const userDoc = userDocs.docs[0];
-          session.user.id = userDoc.data().id;
-          console.log("Documento do usuário já existe.");
-          setIsLoading(false);
         }
-      };
+        // Se necessário, você pode realizar ações adicionais aqui após a verificação do usuário
 
-      CreateUser();
-    }
+        setIsLoading(false);
+      }
+    };
+
+    CreateUser();
   }, [session]);
 
   useEffect(() => {
